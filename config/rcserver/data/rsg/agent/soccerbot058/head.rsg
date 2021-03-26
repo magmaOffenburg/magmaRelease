@@ -1,0 +1,63 @@
+					; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (templ $HeadPosX $HeadPosY $HeadPosZ
+	$headRadius $headMass
+	$minDeg1 $maxDeg1 $minDeg2 $maxDeg2)
+ (nd Transform
+     (setName head)
+     (setLocalPos $HeadPosX $HeadPosY $HeadPosZ)
+
+     (nd RigidBody
+	 (setName sphereBody)
+	 (setSphereTotal $headMass $headRadius
+			 $HeadPosX $HeadPosY $HeadPosZ
+			 0 0 0
+			 )
+	 (nd DragController
+	     (setAngularDrag 0.01)
+	     (setLinearDrag 0.01)
+	     )
+	 )
+
+     ;; Head collider
+     (nd SphereCollider
+	 (setRadius $headRadius)
+	 (setLocalPosition $HeadPosX $HeadPosY $HeadPosZ)
+	 (importScene rsg/agent/nao/contactjointhandler.rsg)
+	 )
+
+     ;; Head visual
+     (nd Sphere
+	 (setRadius $headRadius)
+	 (setMaterial matGrey)
+	 )
+
+     ;; install universal joint
+     (importScene rsg/agent/nao/universaljoint.rsg
+		  hj he
+		  ../sphereBody ../../body/boxBody
+		  0 0 (eval -1 * $headRadius)
+		  0 0 1
+		  1 0 0
+		  $minDeg1    $maxDeg1
+		  $minDeg2    $maxDeg2)
+
+     ;; install the visison perceptor
+;;;      (nd RestrictedVisionPerceptor
+;;; 	 (setViewCones 120 120)
+;;; 	 (setSenseMyPos false)
+;;; 	 (setStaticSenseAxis false)
+;;; 	 (addNoise true)
+;;; 	 (setInterval 3)
+;;; 	 )
+
+;;;      (nd ObjectState
+;;; 	 (setID head)
+;;; 	 )
+     )
+
+
+ )
+

@@ -1,0 +1,47 @@
+; -*- mode: lisp; -*-
+;
+; create a field flag at ($PosX $PosY $PosZ) named $Name with the
+; given $Material
+;
+
+(RSG 0 1)
+(
+
+ (templ $PosX $PosY $PosZ $Name $XScale $YScale $ZScale) 
+
+ (nd Transform
+     (setLocalPos $PosX $PosY $PosZ)  
+     (nd Transform
+	 (setLocalPos 2.0 -2.0 0.0) 
+	 (nd Cylinder
+	     (setParams 1.0 1.0)
+	     (setScale $XScale $YScale $ZScale)
+	     (setMaterial matBlue)
+	     )
+       
+	 (nd Transform
+	     (setLocalPos 0.0 0.0 $ZScale)       
+	     (nd Cylinder
+		 (setParams 1.0 1.0)
+		 (setScale $XScale $YScale $ZScale)
+		 (setMaterial matYellow)
+		 )
+
+	     (nd Transform
+		 (setLocalPos 0.0 0.0 $ZScale)       
+		 (nd Cylinder
+		     (setParams 1.0 1.0)
+		     (setScale $XScale $YScale $ZScale)
+		     (setMaterial matBlue)
+		     )
+		 )
+	     )
+	 )
+ 
+
+     (nd ObjectState
+	 (setPerceptName $Name)
+	 )
+     )
+ )
+

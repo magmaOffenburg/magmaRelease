@@ -1,0 +1,111 @@
+;; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (templ $name $x $y $theta
+	$LeftFlagName $RightFlagName
+	$material)
+
+ (def $GoalWidth   (eval Soccer.GoalWidth))
+ (def $GoalDepth   (eval Soccer.GoalDepth))
+ (def $GoalHeight  (eval Soccer.GoalHeight))
+ (def $BallRadius  (eval Soccer.BallRadius))
+ 
+ (def $GoalHalfWidth   (eval $GoalWidth / 2.0))
+ (def $GoalHalfHeight  (eval $GoalHeight / 2.0))
+ (def $GoalHalfDepth   (eval $GoalDepth / 2.0))
+
+ (def $BallDiameter  (eval $BallRadius * 2.0))
+ 
+ (def $GoalColliderWidth   (eval $GoalWidth - $BallDiameter))
+ (def $GoalColliderDepth   (eval $GoalDepth - $BallDiameter))
+ (def $GoalColliderHeight  (eval $GoalHeight))
+   
+ (def $BarDiameter     0.04)
+ (def $BarRadius       (eval $BarDiameter / 2.0))
+
+ (def $GoalObj (join models/ $name .obj))
+ (def $ObjWidth (eval $GoalWidth + (eval $BarDiameter * 2.0)))
+ (def $ObjHeight (eval $GoalHeight + (eval $BarDiameter * 2.0)))
+ (def $ObjDepth (eval $GoalDepth + (eval $BarDiameter * 2.0)))
+
+ ;; create the goal to hanle the goal
+ (nd Space
+     (setName $name)
+     (nd Transform
+	 (setName GoalBox)
+	 (setLocalPos $x $y $GoalHalfHeight)
+	 (setLocalRotation 0 0 $theta)
+	 (nd BoxCollider
+	     (setName BoxCollider)
+	     (setBoxLengths $GoalColliderDepth $GoalColliderWidth $GoalColliderHeight)
+	     (nd RecorderHandler
+		   (setName recorder)
+		 )
+     )
+
+	 (nd Transform
+	     (setLocalPos $GoalHalfDepth 0.0 (eval -1 * $GoalHalfHeight))
+	     (setLocalRotation 90 90 0)
+	     (nd StaticMesh
+          (load $GoalObj)
+          (setScale $ObjWidth $ObjHeight $ObjDepth)
+          (setTransparent)
+        )
+	  )
+
+	 ;; create the left goal post
+	 (nd Transform
+	     (setLocalPos 0 (eval -1 * (eval $GoalHalfWidth + $BarRadius)) 0)
+	     ;; (nd Box
+;; 		 (setExtents $GoalDepth $BarDiameter $GoalHeight)
+;; 		 (setMaterial matWhite)
+;; 		 )
+	     (nd BoxCollider
+		 (setBoxLengths $GoalDepth $BarDiameter $GoalHeight)
+		 )
+	     )
+
+	 ;; create the right goal post
+	 (nd Transform
+	     (setLocalPos 0 (eval $GoalHalfWidth + $BarRadius)  0 )
+;;; 	     (nd Box
+;;; 		 (setExtents $GoalDepth $BarDiameter $GoalHeight)
+;;; 		 (setMaterial matWhite)
+;;; 		 )
+	     (nd BoxCollider
+		 (setBoxLengths $GoalDepth $BarDiameter $GoalHeight)
+		 )
+	     )
+
+	 ;; create goal back wall
+	 (nd Transform
+	     (setLocalPos (eval -0.2 * $GoalHalfDepth) 0 0)
+	     (setLocalRotation 0 30 0)
+;;; 	     (nd Box
+;;; 		 (setExtents $BarDiameter $GoalWidth $GoalHeight)
+;;; 		 (setMaterial $material)
+;;; 		 )
+	     (nd BoxCollider
+		 (setBoxLengths $BarDiameter $GoalWidth $GoalHeight)
+		 )
+	     )	 
+
+	 ;; mark the goal (no visualization)
+	 (importScene rsg/agent/flag_no_viz.rsg
+		      (eval $GoalHalfDepth )
+		      $GoalHalfWidth
+		      $GoalHalfHeight
+		      $LeftFlagName
+		      )
+
+	 (importScene rsg/agent/flag_no_viz.rsg
+		      (eval $GoalHalfDepth )
+		      (eval -1 * $GoalHalfWidth)
+		      $GoalHalfHeight
+		      $RightFlagName
+		      )
+
+	 ) ;; of Transform
+     ) ;; of Space
+ )

@@ -1,0 +1,149 @@
+; -*- mode: lisp; -*-
+
+;
+; nao robot description file.
+;
+
+(RSG 0 1)
+(
+
+(templ $type)
+
+;
+; The torso parameters
+;
+
+;(def $TorsoLength (eval "NaoType["$type"]['tl']"))
+
+(def $TorsoLength  0.1)
+(def $TorsoWidth   0.1)
+(def $TorsoHeight  0.18)
+(def $TorsoMass    1.2171)
+
+(def $TorsoInitX  0)
+(def $TorsoInitY  -1)
+(def $TorsoInitZ  1.5)
+
+(def $loadObj (eval Nao.UseTexture))
+;
+;Begin Construct of Nao
+;
+(nd Space
+    (setName spacenao)
+    (disableInnerCollision true)
+    
+    ;
+    ;The torso part
+    ;
+    (nd AgentAspect
+        (setName body)
+        (setLocalPos $TorsoInitX $TorsoInitY $TorsoInitZ)
+
+        (switch $loadObj
+          (true
+            (nd Transform
+                (setLocalRotation -90 0 180)
+                (nd StaticMesh
+                    (load 'models/naobody.obj')
+                    (setScale $TorsoLength $TorsoLength $TorsoLength)
+                )
+          )
+          )
+        
+          (false
+            (importScene rsg/agent/nao/box_appearance.rsg $TorsoLength $TorsoWidth $TorsoHeight matGrey)
+          )
+        )
+
+        ;(importScene rsg/agent/nao/box_physics.rsg $TorsoLength $TorsoWidth $TorsoHeight $TorsoMass)
+        (importScene rsg/agent/nao/box_physics_nocollider.rsg $TorsoLength $TorsoWidth $TorsoHeight $TorsoMass)
+        (nd BoxCollider
+            (setName TorsoCollider)
+            (setBoxLengths $TorsoLength $TorsoWidth $TorsoHeight)
+            (importScene rsg/agent/nao/contactjointhandler.rsg)
+        )
+
+        ;Install effectors and perceptors
+        (nd StaticMeshInitEffector)
+
+        (nd TimePerceptor)
+        
+        (nd AgentState
+            (setName AgentState)
+            (setRobotType $type)
+            (nd GameStatePerceptor)
+            (nd HearPerceptor)
+            (nd Transform
+              (nd Cylinder
+                (setName SelectionMarker)
+                (setParams 1.0 1.0)
+                (setScale 0.2 0.2 0.02)
+                (setMaterial matSelect)
+                (setTransparent)
+              )
+            )
+        )
+
+        (nd GyroRatePerceptor (setName torso))
+	(nd Accelerometer (setName torso))
+
+        ;(nd HMDPPerceptor)
+        ;(nd HMDPEffector)
+
+        (nd BeamEffector)
+
+        (nd SayEffector)
+
+        ;(nd VisionPerceptor
+    ;        (setSenseMyPos false)
+    ;        (setStaticSenseAxis false)
+    ;        (addNoise false))
+
+        (nd AgentSyncEffector)
+
+    );end of AgentAspect
+    
+    
+    ;
+    ;The neck and head part
+    ;
+    (importScene rsg/agent/nao/naoneckhead.rsg
+              $TorsoInitX $TorsoInitY $TorsoInitZ $loadObj
+              $type)
+    
+
+    ;
+    ;The Right Arm
+    ;
+    (importScene rsg/agent/nao/naoarm.rsg
+              1 r
+              $TorsoInitX $TorsoInitY $TorsoInitZ $loadObj
+              $type)
+
+    ;
+    ;The Left Arm
+    ;
+    (importScene rsg/agent/nao/naoarm.rsg
+              -1 l
+              $TorsoInitX $TorsoInitY $TorsoInitZ $loadObj
+              $type)
+    
+    ;
+    ;The Right Leg
+    ;
+    (importScene rsg/agent/nao/naoleg.rsg
+              1 r
+              $TorsoInitX $TorsoInitY $TorsoInitZ $loadObj
+              $type)
+    
+    ;
+    ;The Left Leg
+    ;
+    (importScene rsg/agent/nao/naoleg.rsg
+              -1 l
+              $TorsoInitX $TorsoInitY $TorsoInitZ $loadObj
+              $type)
+
+);end of nd Space
+
+);end of RSG 0 1

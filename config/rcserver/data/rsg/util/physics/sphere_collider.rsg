@@ -1,0 +1,13 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    (templ $name $radius)
+
+    (nd SphereCollider
+        (setName (join $name Collider))
+        (setRadius $radius)
+
+        (importScene rsg/util/physics/contactjointhandler.rsg)
+    )
+ )

@@ -1,0 +1,210 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    ;
+    ;Template
+    ;
+    ;@param ParentName the name of the parent node (needed to prevent internal collisions)
+    ;@param ParentBodyPath the absolute path of the parent body (e.g. the trunk: body/Trunk)
+    ;@param Parent_X the global initial x-position of the parent body
+    ;@param Parent_Y the global initial y-position of the parent body
+    ;@param Parent_Z the global initial z-position of the parent body
+    ;@param loadObj true if .obj files should be used for appearance, false for geometric forms (box, sphere, capsule)
+    ;    
+    (templ $ParentName $ParentBodyPath $Parent_X $Parent_Y $Parent_Z $loadObj)
+    
+
+    ;
+    ;The Names
+    ;
+    (def $Neck1Name neck1)
+    (def $Neck2Name neck2)
+    (def $HeadName head)
+
+    (def $Neck1BodyPath (join ../../ $Neck1Name / $Neck1Name Body))
+    (def $Neck2BodyPath (join ../../ $Neck2Name / $Neck2Name Body))
+    (def $HeadBodyPath  (join ../../ $HeadName  / $HeadName  Body))
+   
+    ;
+    ;Position Parameters
+    ;
+    (def $Neck1RelParent_X 0)
+    (def $Neck1RelParent_Y 0)
+    (def $Neck1RelParent_Z 0.2723)
+    
+    (def $Neck2RelNeck1_X 0)
+    (def $Neck2RelNeck1_Y 0)
+    (def $Neck2RelNeck1_Z 0.0306)
+    
+    (def $HeadRelNeck2_X 0)
+    (def $HeadRelNeck2_Y 0)
+    (def $HeadRelNeck2_Z 0.0494)
+
+    (def $Neck1_X (eval $Parent_X + $Neck1RelParent_X))
+    (def $Neck1_Y (eval $Parent_Y + $Neck1RelParent_Y))
+    (def $Neck1_Z (eval $Parent_Z + $Neck1RelParent_Z))
+    
+    (def $Neck2_X (eval $Neck1_X + $Neck2RelNeck1_X))
+    (def $Neck2_Y (eval $Neck1_Y + $Neck2RelNeck1_Y))
+    (def $Neck2_Z (eval $Neck1_Z + $Neck2RelNeck1_Z))
+    
+    (def $Head_X (eval $Neck2_X + $HeadRelNeck2_X))
+    (def $Head_Y (eval $Neck2_Y + $HeadRelNeck2_Y))
+    (def $Head_Z (eval $Neck2_Z + $HeadRelNeck2_Z))
+    
+    ;
+    ;Size and Mass Parameters
+    ;
+    (def $Neck1_Radius  0.01)
+    (def $Neck1_Mass    0.218126)
+    
+    (def $Neck2_Radius  0.01)
+    (def $Neck2_Mass    0.02)
+    
+    (def $Head_SizeX   0.18)
+    (def $Head_SizeY   0.14)
+    (def $Head_SizeZ   0.16)
+    (def $Head_Mass    0.048876) 
+
+    ;
+    ;Joint Parameters
+    ;
+    (def $PI 3.14159265)
+    (def $MaxAbsJointSpeed (eval $PI * (eval 351.77 / 180.0)))
+
+    (def $hj1_min       -135)
+    (def $hj1_max       135)
+    (def $hj1_max_abs_speed $MaxAbsJointSpeed)
+
+    (def $hj2_min       -10)
+    (def $hj2_max       10)
+    (def $hj2_max_abs_speed $MaxAbsJointSpeed)
+
+    (def $hj3_min       -50)
+    (def $hj3_max       65)
+    (def $hj3_max_abs_speed $MaxAbsJointSpeed)
+    
+
+    (def $hj1_Anchor_X  0)
+    (def $hj1_Anchor_Y  0)
+    (def $hj1_Anchor_Z  0)
+    
+    (def $hj2_Anchor_X  0)
+    (def $hj2_Anchor_Y  0)
+    (def $hj2_Anchor_Z  0)
+    
+    (def $hj3_Anchor_X  0)
+    (def $hj3_Anchor_Y  0)
+    (def $hj3_Anchor_Z  0.0494)
+    
+    ;
+    ;Models obj
+    ;
+    (def $HeadObj  models/sweaty/head.obj)
+    
+    ;
+    ;Begin construct neck1
+    ;
+    (nd Transform
+        (setName $Neck1Name)
+        (setLocalPos $Neck1_X $Neck1_Y $Neck1_Z)
+        
+        (importScene rsg/util/appearance/sphere_appearance.rsg $Neck1_Radius matYellow)
+        (importScene rsg/util/physics/sphere_physics_nocollider.rsg $Neck1Name $Neck1_Radius $Neck1_Mass)
+        
+        (importScene rsg/util/joint/hingejointPower.rsg 
+                            hj1 he1
+                            (join ../ $Neck1Name Body) (join ../../ $ParentBodyPath)
+                            $hj1_Anchor_X $hj1_Anchor_Y $hj1_Anchor_Z
+                            0 0 1
+                            $hj1_min $hj1_max
+                            $hj1_max_abs_speed 40)
+    )
+    
+    ;
+    ;Begin construct neck2
+    ;
+    (nd Transform
+        (setName $Neck2Name)
+        (setLocalPos $Neck2_X $Neck2_Y $Neck2_Z)
+        
+        (importScene rsg/util/appearance/sphere_appearance.rsg $Neck2_Radius matYellow)
+        (importScene rsg/util/physics/sphere_physics_nocollider.rsg $Neck2Name $Neck2_Radius $Neck2_Mass)
+        
+        (importScene rsg/util/joint/hingejointPower.rsg 
+                            hj2 he2
+                            (join ../ $Neck2Name Body) $Neck1BodyPath
+                            $hj2_Anchor_X $hj2_Anchor_Y $hj2_Anchor_Z
+                            0 1 0
+                            $hj2_min $hj2_max
+                            $hj2_max_abs_speed 40)
+    )
+    
+
+    ;
+    ;Begin construct head
+    ;     
+    (nd Transform
+        (setName $HeadName)
+        (setLocalPos $Head_X $Head_Y $Head_Z)
+
+        (switch $loadObj
+          (true
+            (nd Transform
+              (setLocalRotation -90 0 180)
+              (nd StaticMesh
+	            (load $HeadObj)
+	            (setScale $Head_SizeX $Head_SizeX $Head_SizeX)
+              )
+            )
+          )
+          (false
+            (importScene rsg/util/appearance/box_appearance.rsg $Head_SizeX $Head_SizeY $Head_SizeZ matRed)
+          )
+        )
+		
+        (importScene rsg/util/physics/box_physics_nocollider.rsg $HeadName $Head_SizeX $Head_SizeY $Head_SizeZ $Head_Mass)
+        (nd BoxCollider
+          (setName (join $HeadName Collider))
+          (addNotCollideWithColliderName (join $Neck2Name Collider) true)
+          (setBoxLengths $Head_SizeX $Head_SizeY $Head_SizeZ)
+          (importScene rsg/util/physics/contactjointhandler.rsg)
+        )
+        
+        (importScene rsg/util/joint/hingejointPower.rsg
+                              hj3 he3
+                              (join ../ $HeadName Body) $Neck2BodyPath
+                              $hj3_Anchor_X $hj3_Anchor_Y $hj3_Anchor_Z
+                              1 0 0
+                              $hj3_min $hj3_max
+                              $hj3_max_abs_speed 40)
+
+        (nd RestrictedVisionPerceptor
+            (setViewCones 120 120)
+            (setSenseMyPos false)
+            (setSenseBallPos false)
+            (setStaticSenseAxis false)
+            (addNoise true)
+            (setInterval 3)
+            (setSenseLine true)
+        )
+
+	;; (nd Transform
+	;;     (setLocalPos 0 $Head_Radius 0)
+	;;     (setLocalRotation 0 0 0)
+	;;     (nd ImagePerceptor
+	;; 	(setInterval 3)
+	;; 	(setOffScreen false)
+	;; 	(setResolution 320 240)
+	;; 	(setFOV 58)
+	;; 	(setZNear 0.003)
+	;; 	(setZFar 50)
+	;; 	)
+	;;     )
+
+        (nd ObjectState
+            (setID $HeadName)
+        )
+    )
+)

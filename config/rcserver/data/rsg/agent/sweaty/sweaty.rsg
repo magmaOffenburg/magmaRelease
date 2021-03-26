@@ -1,0 +1,114 @@
+; -*- mode: lisp; -*-
+
+;
+; sweaty robot description file.
+;
+
+(RSG 0 1)
+(
+
+;
+; The torso parameters
+;
+
+(def $TrunkName trunk)
+(def $TrunkBodyPath (join body/ $TrunkName Body))
+
+(def $Trunk_SizeX  0.3)
+(def $Trunk_SizeY   0.15)
+(def $Trunk_SizeZ  0.1015)
+(def $Trunk_Mass    3.18477)
+
+(def $TrunkInitX  0)
+(def $TrunkInitY  -1)
+(def $TrunkInitZ  1.5)
+
+;(def $loadObj (eval Sweaty.UseTexture))
+(def $loadObj false)
+
+;
+;Begin Construct of Sweaty
+;
+(nd Space
+    (setName spacesweaty)
+    (disableInnerCollision true)
+    
+    ;
+    ;The trunk part
+    ;
+    (nd AgentAspect
+        (setName body)
+        (setLocalPos $TrunkInitX $TrunkInitY $TrunkInitZ)
+
+        (switch $loadObj
+          (true
+            (nd Transform
+                (setLocalRotation -90 0 180)
+                (nd StaticMesh
+                    (load 'models/sweaty/sweatytrunk.obj')
+                    (setScale $Trunk_SizeX $Trunk_SizeX $Trunk_SizeX)
+                )
+            )
+          )
+          (false
+            (importScene rsg/util/appearance/box_appearance.rsg $Trunk_SizeX $Trunk_SizeY $Trunk_SizeZ matRed)
+          )
+        )
+
+        (importScene rsg/util/physics/box_physics.rsg $TrunkName $Trunk_SizeX $Trunk_SizeY $Trunk_SizeZ $Trunk_Mass)
+
+        ;Install effectors and perceptors
+        (nd StaticMeshInitEffector)
+
+        (nd TimePerceptor)
+        
+        (nd AgentState
+            (setName AgentState)
+            (nd GameStatePerceptor)
+            (nd HearPerceptor)
+	    (setRobotType 0)
+            (nd Transform
+              (nd Cylinder
+                (setName SelectionMarker)
+                (setParams 1.0 1.0)
+                (setScale 0.2 0.2 0.02)
+                (setMaterial matSelect)
+                (setTransparent)
+              )
+            )
+        )
+
+        (nd GyroRatePerceptor (setName $TrunkName))
+	    (nd Accelerometer (setName $TrunkName))
+
+        (nd BeamEffector)
+
+        (nd SayEffector)
+
+        (nd AgentSyncEffector)
+    );end of AgentAspect
+    
+    
+    ;
+    ;The torso (containing arms and head)
+    ;
+    (importScene rsg/agent/sweaty/sweaty_torso.rsg $TrunkName $TrunkBodyPath $TrunkInitX $TrunkInitY $TrunkInitZ $loadObj)
+    
+    
+    ;
+    ;The Right Leg
+    ;
+    (importScene rsg/agent/sweaty/sweaty_leg.rsg
+              1 r
+              $TrunkName $TrunkBodyPath $TrunkInitX $TrunkInitY $TrunkInitZ $loadObj)
+    
+    ;
+    ;The Left Leg
+    ;
+    (importScene rsg/agent/sweaty/sweaty_leg.rsg
+              -1 l
+              $TrunkName $TrunkBodyPath $TrunkInitX $TrunkInitY $TrunkInitZ $loadObj)
+
+);end of nd Space
+
+);end of RSG 0 1

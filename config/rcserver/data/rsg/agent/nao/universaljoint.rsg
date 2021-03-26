@@ -1,0 +1,56 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    (templ  $PerName     $EffName   
+            $Path_Body1  $Path_Body2
+            $Anchor_X    $Anchor_Y   $Anchor_Z
+            $Axis1_X     $Axis1_Y    $Axis1_Z
+            $Axis2_X     $Axis2_Y    $Axis2_Z
+            $Min0        $Max0
+            $Min1        $Max1
+            $MaxAbsSpeed
+    )
+
+    (def $PI 3.14159265)
+    (def $Min0Deg (eval $Min0 * (eval 180.0 / $PI)))
+    (def $Max0Deg (eval $Max0 * (eval 180.0 / $PI)))
+    (def $Min1Deg (eval $Min1 * (eval 180.0 / $PI)))
+    (def $Max1Deg (eval $Max1 * (eval 180.0 / $PI)))
+ 
+    ;
+    ;Universal Joint Parameters
+    ;
+    (def $FMax          10)
+    (def $CFM           1e-8)
+    (def $Stop_CFM      1e-8)
+    (def $Stop_ERP      0.8)
+    (def $FudgeFactor   1e-5)
+    (def $Bounce        1)
+
+    (nd UniversalJoint
+            (attach             $Path_Body1  $Path_Body2)
+            (setAnchor          $Anchor_X    $Anchor_Y  $Anchor_Z)
+            (setAxis1           $Axis1_X     $Axis1_Y   $Axis1_Z)
+            (setAxis2           $Axis2_X     $Axis2_Y   $Axis2_Z)
+            (setMaxMotorForce   0  $FMax)
+            (setMaxMotorForce   1  $FMax)
+            (setCFM             0  $CFM)
+            (setCFM             1  $CFM)
+            (setStopCFM         0  $Stop_CFM)
+            (setStopERP         0  $Stop_ERP)
+            (setFudgeFactor     0  $FudgeFactor)
+            (setFudgeFactor     1  $FudgeFactor)
+            (setBounce          0  $Bounce)
+            (setBounce          1  $Bounce)
+            (setLowStopDeg      0  $Min0Deg)
+            (setHighStopDeg     0  $Max0Deg)
+            (setLowStopDeg      1  $Min1Deg)
+            (setHighStopDeg     1  $Max1Deg)
+	    (setJointMaxSpeed1  $MaxAbsSpeed)
+	    (setJointMaxSpeed2  $MaxAbsSpeed)
+            
+            (nd UniversalJointPerceptor (setName $PerName))
+            (nd UniversalJointEffector  (setName $EffName))
+     )
+)

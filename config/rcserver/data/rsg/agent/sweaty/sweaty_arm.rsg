@@ -1,0 +1,282 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    ;
+    ;Template
+    ;
+    ;@param LRFactor side sign factor (left leg ? -1 : 1)
+    ;@param LeftOrRight prefix for names (left leg ? 'l' : 'r')
+    ;@param ParentName the name of the parent node (needed to prevent internal collisions)
+    ;@param ParentBodyPath the absolute path of the parent body (e.g. the trunk: body/Trunk)
+    ;@param Parent_X the global initial x-position of the parent body
+    ;@param Parent_Y the global initial y-position of the parent body
+    ;@param Parent_Z the global initial z-position of the parent body
+    ;@param loadObj true if .obj files should be used for appearance, false for geometric forms (box, sphere, capsule)
+    ;    
+    (templ $LRFactor $LeftOrRight
+           $ParentName $ParentBodyPath $Parent_X $Parent_Y $Parent_Z $loadObj)
+    
+    ;
+    ;The Names
+    ;
+    (def $ShoulderName (join $LeftOrRight shoulder))
+    (def $UpperarmName (join $LeftOrRight upperarm))
+    (def $LowerarmName (join $LeftOrRight lowerarm))
+    (def $WristName    (join $LeftOrRight wrist))
+
+    (def $ShoulderBodyPath (join ../../ $ShoulderName / $ShoulderName Body))
+    (def $UpperarmBodyPath (join ../../ $UpperarmName / $UpperarmName Body))
+    (def $LowerarmBodyPath (join ../../ $LowerarmName / $LowerarmName Body))
+    (def $WristBodyPath    (join ../../ $WristName    / $WristName    Body))
+   
+    (def $Joint1PerName (join $LeftOrRight aj1))
+    (def $Joint2PerName (join $LeftOrRight aj2))
+    (def $Joint3PerName (join $LeftOrRight aj3)) 
+    (def $Joint4PerName (join $LeftOrRight aj4)) 
+    
+    (def $Joint1EffName (join $LeftOrRight ae1))
+    (def $Joint2EffName (join $LeftOrRight ae2)) 
+    (def $Joint3EffName (join $LeftOrRight ae3))
+    (def $Joint4EffName (join $LeftOrRight ae4))
+    
+    ;
+    ;Position Parameters
+    ;
+    (def $ShoulderRelParent_X (eval $LRFactor * 0.22032))
+    (def $ShoulderRelParent_Y 0)
+    (def $ShoulderRelParent_Z 0.2458)
+    
+    (def $UpperarmRelShoulder_X 0)
+    (def $UpperarmRelShoulder_Y 0)
+    (def $UpperarmRelShoulder_Z -0.13925)
+    
+    (def $LowerarmRelUpperarm_X 0)
+    (def $LowerarmRelUpperarm_Y 0)
+    (def $LowerarmRelUpperarm_Z -0.26845)
+
+    (def $WristRelLowerarm_X 0)
+    (def $WristRelLowerarm_Y 0)
+    (def $WristRelLowerarm_Z -0.159225)
+    
+    (def $Shoulder_X (eval $Parent_X + $ShoulderRelParent_X))
+    (def $Shoulder_Y (eval $Parent_Y + $ShoulderRelParent_Y))
+    (def $Shoulder_Z (eval $Parent_Z + $ShoulderRelParent_Z))
+    
+    (def $Upperarm_X (eval $Shoulder_X + $UpperarmRelShoulder_X))
+    (def $Upperarm_Y (eval $Shoulder_Y + $UpperarmRelShoulder_Y))
+    (def $Upperarm_Z (eval $Shoulder_Z + $UpperarmRelShoulder_Z))
+    
+    (def $Lowerarm_X (eval $Upperarm_X + $LowerarmRelUpperarm_X))
+    (def $Lowerarm_Y (eval $Upperarm_Y + $LowerarmRelUpperarm_Y))
+    (def $Lowerarm_Z (eval $Upperarm_Z + $LowerarmRelUpperarm_Z))
+    
+    (def $Wrist_X    (eval $Lowerarm_X + $WristRelLowerarm_X))
+    (def $Wrist_Y    (eval $Lowerarm_Y + $WristRelLowerarm_Y))
+    (def $Wrist_Z    (eval $Lowerarm_Z + $WristRelLowerarm_Z))
+    
+    ;
+    ;Size and Mass Parameters
+    ;
+    (def $Shoulder_Radius 0.01)
+    (def $Shoulder_Mass   0.3)
+    
+    (def $Upperarm_SizeX  0.04)
+    (def $Upperarm_SizeY  0.04)
+    (def $Upperarm_SizeZ  0.26845)
+    (def $Upperarm_Mass   0.3)
+    
+    (def $Lowerarm_SizeX  0.04)
+    (def $Lowerarm_SizeY  0.04)
+    (def $Lowerarm_SizeZ  0.26845)
+    (def $Lowerarm_Mass   0.3)
+
+    (def $Wrist_SizeX  0.04)
+    (def $Wrist_SizeY  0.04)
+    (def $Wrist_SizeZ  0.05)
+    (def $Wrist_Mass   0.1)    
+        
+    ;
+    ;Joint Parameters
+    ;
+    (def $PI 3.14159265)
+    (def $MaxAbsJointSpeed (eval $PI * (eval 351.77 / 180.0)))
+
+    (def $right_aj1_min -115)
+    (def $left_aj1_min  -1)
+    (def $aj1_min_c1    (eval (eval $right_aj1_min + $left_aj1_min) * 0.5))
+    (def $aj1_min_c2    (eval (eval $right_aj1_min - $left_aj1_min) * 0.5))
+    (def $aj1_min       (eval $aj1_min_c1 + (eval $LRFactor * $aj1_min_c2)))
+    
+    (def $right_aj1_max 1)
+    (def $left_aj1_max  115)
+    (def $aj1_max_c1    (eval (eval $right_aj1_max + $left_aj1_max) * 0.5))
+    (def $aj1_max_c2    (eval (eval $right_aj1_max - $left_aj1_max) * 0.5))
+    (def $aj1_max       (eval $aj1_max_c1 + (eval $LRFactor * $aj1_max_c2)))
+    (def $aj1_max_abs_speed $MaxAbsJointSpeed)
+    
+    (def $aj2_min       -120)
+    (def $aj2_max       120)
+    (def $aj2_max_abs_speed $MaxAbsJointSpeed)
+    
+    (def $aj3_min       -1)
+    (def $aj3_max       120)
+    (def $aj3_max_abs_speed $MaxAbsJointSpeed)
+    
+    (def $aj4_min       -20)
+    (def $aj4_max       20)
+    (def $aj4_max_abs_speed $MaxAbsJointSpeed)
+    
+
+    (def $aj2_Anchor_X  (eval -1 * $UpperarmRelShoulder_X))
+    (def $aj2_Anchor_Y  (eval -1 * $UpperarmRelShoulder_Y))
+    (def $aj2_Anchor_Z  (eval -1 * $UpperarmRelShoulder_Z))
+    
+    (def $aj3_Anchor_X  0)
+    (def $aj3_Anchor_Y  0)
+    (def $aj3_Anchor_Z  0.134225)
+    
+    (def $aj4_Anchor_X  0)
+    (def $aj4_Anchor_Y  0)
+    (def $aj4_Anchor_Z  0.025)
+    
+    ;
+    ;Models obj
+    ;
+    (def $UpperarmObj   (join models/sweaty/ $LeftOrRight upperarm.obj))
+    (def $LowerarmObj   (join models/sweaty/ $LeftOrRight lowerarm.obj))
+    (def $WristObj      (join models/sweaty/ $LeftOrRight wrist.obj))
+
+    ;
+    ;Construct Shoulder
+    ;
+    (nd Transform
+        (setName $ShoulderName)
+        (setLocalPos $Shoulder_X $Shoulder_Y $Shoulder_Z)
+        
+        (importScene rsg/util/appearance/sphere_appearance.rsg $Shoulder_Radius matYellow)
+        (importScene rsg/util/physics/sphere_physics_nocollider.rsg $ShoulderName $Shoulder_Radius $Shoulder_Mass)
+
+        (importScene rsg/util/joint/hingejointPower.rsg
+                              $Joint1PerName $Joint1EffName
+                              (join ../ $ShoulderName Body) (join ../../ $ParentBodyPath)
+                              0 0 0
+                              0 0 1
+                              $aj1_min $aj1_max
+                              $aj1_max_abs_speed 40)
+    )                  
+           
+    ;               
+    ;Construct UpperArm
+    ;
+    (nd Transform
+        (setName $UpperarmName)
+        (setLocalPos $Upperarm_X $Upperarm_Y $Upperarm_Z)
+        
+        (switch $loadObj
+          (true
+            (nd StaticMesh
+              (load $UpperarmObj)
+              (setScale $Upperarm_SizeX $Upperarm_SizeX $Upperarm_SizeX)
+            )
+          )
+          (false
+            (importScene rsg/util/appearance/box_appearance.rsg $Upperarm_SizeX $Upperarm_SizeY $Upperarm_SizeZ matGrey)
+          )
+        )
+
+        (importScene rsg/util/physics/box_physics_nocollider.rsg $UpperarmName $Upperarm_SizeX $Upperarm_SizeY $Upperarm_SizeZ $Upperarm_Mass)
+        (nd BoxCollider
+          (setName (join $UpperarmName Collider))
+          (addNotCollideWithColliderName (join $ParentName Collider) true)
+          (setBoxLengths $Upperarm_SizeX $Upperarm_SizeY $Upperarm_SizeZ)
+          (importScene rsg/util/physics/contactjointhandler.rsg)
+        )
+        
+        (importScene rsg/util/joint/hingejointPower.rsg
+                                $Joint2PerName $Joint2EffName
+                                (join ../ $UpperarmName Body) $ShoulderBodyPath
+                                $aj2_Anchor_X $aj2_Anchor_Y $aj2_Anchor_Z
+                                1 0 0
+                                $aj2_min $aj2_max
+                                $aj2_max_abs_speed 40)
+    )
+    
+    ;
+    ;Construct LowerArm
+    ;
+    (nd Transform
+        (setName $LowerarmName)
+        (setLocalPos $Lowerarm_X $Lowerarm_Y $Lowerarm_Z)
+
+        (switch $loadObj
+          (true
+            (nd StaticMesh
+              (load $LowerarmObj)
+              (setScale $Lowerarm_SizeX $Lowerarm_SizeX $Lowerarm_SizeX)
+            )
+          )
+          (false
+            (importScene rsg/util/appearance/box_appearance.rsg $Lowerarm_SizeX $Lowerarm_SizeY $Lowerarm_SizeZ matBlue)
+          )
+        )
+
+        (importScene rsg/util/physics/box_physics_nocollider.rsg $LowerarmName $Lowerarm_SizeX $Lowerarm_SizeY $Lowerarm_SizeZ $Lowerarm_Mass)
+        (nd BoxCollider
+          (setName (join $LowerarmName Collider))
+          (addNotCollideWithColliderName (join $UpperarmName Collider) true)
+          (setBoxLengths $Lowerarm_SizeX $Lowerarm_SizeY $Lowerarm_SizeZ)
+          (importScene rsg/util/physics/contactjointhandler.rsg)
+        )
+        
+        (importScene rsg/util/joint/hingejointPower.rsg
+                                $Joint3PerName $Joint3EffName
+                                (join ../ $LowerarmName Body) $UpperarmBodyPath
+                                $aj3_Anchor_X $aj3_Anchor_Y $aj3_Anchor_Z
+                                1 0 0
+                                $aj3_min $aj3_max
+                                $aj3_max_abs_speed 40)
+    )
+
+     
+    ;
+    ;Construct Wrist
+    ;
+    (nd Transform
+        (setName $WristName)
+        (setLocalPos $Wrist_X $Wrist_Y $Wrist_Z)
+        
+
+        (switch $loadObj
+          (true
+            (nd StaticMesh
+              (load $WristObj)
+              (setScale $Wrist_SizeX $Wrist_SizeY $Wrist_SizeZ)
+            )
+          )
+          (false
+            (importScene rsg/util/appearance/box_appearance.rsg $Wrist_SizeX $Wrist_SizeY $Wrist_SizeZ matRed)
+          )
+        )
+
+        (importScene rsg/util/physics/box_physics_nocollider.rsg $WristName $Wrist_SizeX $Wrist_SizeY $Wrist_SizeZ $Wrist_Mass)
+        (nd BoxCollider
+          (setName (join $WristName Collider))
+          (addNotCollideWithColliderName (join $LowerarmName Collider) true)
+          (setBoxLengths $Wrist_SizeX $Wrist_SizeY $Wrist_SizeZ)
+          (importScene rsg/util/physics/contactjointhandler.rsg)
+        )
+        
+        (importScene rsg/util/joint/hingejointPower.rsg
+                                $Joint4PerName $Joint4EffName
+                                (join ../ $WristName Body) $LowerarmBodyPath
+                                0 0 0
+                                0 1 0
+                                $aj4_min $aj4_max
+                                $aj4_max_abs_speed 40)
+
+        (nd ObjectState
+             (setID $WristName)
+        )
+    )
+)

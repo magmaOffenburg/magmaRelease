@@ -1,0 +1,13 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    (templ $name $radius $length $totalMass)
+
+    (nd RigidBody
+        (setName (join $name Body))
+        (setCapsuleTotal $totalMass $radius)
+
+        (importScene rsg/util/physics/dragcontroller.rsg)
+    )
+)

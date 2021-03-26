@@ -1,0 +1,44 @@
+Time consumption of the Vacuum World search
+
+Breadth First Search (ArrayList)
+# of rooms  time            nodes
+2           10              190
+3           40              1000
+4           160             9019
+5           4296            81190
+6           2670169         730729
+
+Breadth First Search (LinkedList)
+# of rooms  time            nodes
+2           10              73
+3           31              682
+4           100             6151
+5           281             55360
+6           1712            498229
+7           14781           4484038
+
+
+Depth First Search
+never finds a solution
+
+
+Depth Limited Search
+# of rooms  time            nodes       limit
+2           20              28          5
+3           20              154         7
+4           50              1252        9
+5           120             11098       11
+6           390             99676       13
+7           2754            896842      15
+8           27109           8071300     17
+
+
+Iterative Deepening Search
+# of rooms  time            nodes
+2           20              73
+3           30              632
+4           110             6151
+5           301             55360
+6           1923            498229
+7           15743           4484038
+

@@ -1,0 +1,19 @@
+; -*- mode: lisp; -*-
+;
+; create a field flag at ($PosX $PosY $PosZ) named $Name with the
+; given $Material
+;
+
+(RSG 0 1)
+(
+ (templ $PosX $PosY $PosZ $Name $Material)
+
+ (nd Transform
+       (setLocalPos $PosX $PosY $PosZ)
+       (importScene rsg/boxspheres/staticsphere.rsg 1 $Material)
+
+       (nd ObjectState
+	     (setPerceptName $Name)
+	     )
+       )
+ )

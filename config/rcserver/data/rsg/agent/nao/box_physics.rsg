@@ -1,0 +1,19 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    (templ $lenX $lenY $lenZ $totalMass)
+
+    (nd RigidBody
+        (setName boxBody)
+        (setBoxTotal $totalMass $lenX $lenY $lenZ)
+
+        (importScene rsg/agent/nao/dragcontroller.rsg)
+    )
+
+    (nd BoxCollider
+        (setBoxLengths $lenX $lenY $lenZ)
+
+        (importScene rsg/agent/nao/contactjointhandler.rsg)
+    )
+)

@@ -1,0 +1,56 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (def $Radius (eval Soccer.BallRadius))
+ (def $Material matOrange)
+ (def $Mass (eval Soccer.BallMass))
+
+ (nd Ball
+     (setLocalPos 0.0 0.0 $Radius)
+     (setName Ball)
+     
+     (nd StaticMesh
+	 (load 'models/soccerball.obj')
+	 (setScale $Radius $Radius $Radius)
+     )
+					 
+     (nd RigidBody
+	 (setName physics)
+	 
+	 (setSphereTotal $Mass $Radius)
+	 (nd DragController
+	     (setAngularDrag 0.00005)
+	     (setLinearDrag 0.01)
+	 )
+     )
+     
+     (nd SphereCollider
+	 (setName geometry)
+	 (setRadius $Radius)
+	 
+	 (nd RecorderHandler
+	     (setName recorder)
+	 )
+
+	 (nd ContactJointHandler
+	     (setContactBounceMode true)
+	     (setContactBounceValue 0.8)
+	     (setMinBounceVel 0.8)
+
+	     (setContactSlipMode true)
+	     (setContactSlip 0.6)
+	     
+	     (setContactSoftERPMode true)
+	     (setContactSoftERP 0.5)
+	     
+	     (setContactSoftCFMMode true)
+	     (setContactSoftCFM 0.05)
+	 )
+     )
+
+     (nd ObjectState
+	 (setPerceptName B)
+     )
+ )
+)

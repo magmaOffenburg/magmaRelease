@@ -1,0 +1,39 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (templ $lenX $lenY $lenZ $totalMass)
+ 
+ (nd SingleMatNode
+     (load 'models/soccerbottorso.obj')
+     (setScale (eval 0.5 * $lenX) (eval 0.5 * $lenY) (eval 0.5 * $lenZ))
+     ;(setScale 1.0 1.0 1.0)
+     )
+
+ (nd RigidBody
+       (setName boxBody)
+       ;(setBoxTotal $totalMass $lenX $lenY $lenZ)
+       (setBox $totalMass $lenX $lenY $lenZ)
+       (nd DragController
+	     (setAngularDrag 0.01)
+	     (setLinearDrag 0.01)
+	)
+ )
+
+ (nd BoxCollider
+       (setBoxLengths $lenX $lenY $lenZ)
+       (nd ContactJointHandler
+	     (setContactBounceMode false)
+
+	     (setContactSlipMode true)
+	     (setContactSlip 0.1 0.1)
+
+	     (setContactSoftERPMode true)
+	     (setContactSoftERP 0.2)
+
+	     (setContactSoftCFM true)
+	     (setContactSoftCFM 0.01)
+
+	     )
+       )
+)

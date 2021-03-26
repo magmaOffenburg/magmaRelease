@@ -1,0 +1,136 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (templ $upperLenX $upperLenY $upperLenZ $upperMass
+        $lowerLenX $lowerLenY $lowerLenZ $lowerMass
+        $headRadius $headMass)
+
+ (def $LowerTorsoPosX 0)
+ (def $LowerTorsoPosY 0)
+ (def $LowerTorsoPosZ (eval -0.5 * $upperLenZ))
+
+ (def $HeadPosX 0)
+ (def $HeadPosY 0.05)
+ (def $HeadPosZ (eval (eval (eval 0.5 * $upperLenZ) + 0.1) + (eval $headRadius / 2.0)))
+
+ (nd RigidBody
+       (setName boxBody)
+       ; Upper torso mass
+       (setBox $upperMass $upperLenX $upperLenY $upperLenZ)
+       ; Lower torso mass
+       (addBox $lowerMass
+               $lowerLenX $lowerLenY $lowerLenZ
+               $LowerTorsoPosX $LowerTorsoPosY $LowerTorsoPosZ
+               45 0 0
+       )
+       ; Head mass
+       (addSphere $headMass $headRadius
+                  $HeadPosX $HeadPosY $HeadPosZ
+                  0 0 0
+       )
+       (nd DragController
+	     (setAngularDrag 0.01)
+	     (setLinearDrag 0.01)
+	)
+ )
+
+ ; Upper torso collider
+ (nd TransformCollider
+     (nd BoxCollider
+           (setBoxLengths $upperLenX $upperLenY $upperLenZ)
+           (nd ContactJointHandler
+    	     (setContactBounceMode false)
+
+    	     (setContactSlipMode true)
+    	     (setContactSlip 0.1 0.1)
+
+    	     (setContactSoftERPMode true)
+    	     (setContactSoftERP 0.2)
+
+    	     (setContactSoftCFM true)
+    	     (setContactSoftCFM 0.01)
+
+            )
+           )
+ )
+
+ ; Lower torso collider
+ (nd TransformCollider
+       (nd BoxCollider
+        (setBoxLengths $lowerLenX $lowerLenY $lowerLenZ)
+        (setLocalPosition $LowerTorsoPosX $LowerTorsoPosY $LowerTorsoPosZ)
+        (setRotation 45 0 0)
+       )
+       (nd ContactJointHandler
+	     (setContactBounceMode false)
+
+	     (setContactSlipMode true)
+	     (setContactSlip 0.1 0.1)
+
+	     (setContactSoftERPMode true)
+	     (setContactSoftERP 0.2)
+
+	     (setContactSoftCFM true)
+	     (setContactSoftCFM 0.01)
+
+       )
+ )
+
+ ; Head collider
+ (nd TransformCollider
+       (nd SphereCollider
+        (setRadius $headRadius)
+        (setLocalPosition $HeadPosX $HeadPosY $HeadPosZ)
+       )
+
+       (nd ContactJointHandler
+	     (setContactBounceMode false)
+
+	     (setContactSlipMode true)
+	     (setContactSlip 0.1 0.1)
+
+	     (setContactSoftERPMode true)
+	     (setContactSoftERP 0.2)
+
+	     (setContactSoftCFM true)
+	     (setContactSoftCFM 0.01)
+	     )
+ )
+
+ ; Upper torso visual
+ (nd Transform
+     (setName chest)
+     (setLocalPos 0 0 0)
+     (setLocalRotation 90 180 0)
+
+     (nd SingleMatNode
+         (load 'models/soccerbottorso.obj')
+         (setScale (eval 0.5 * $upperLenX) (eval 0.5 * $upperLenY) (eval 0.5 * $upperLenZ))
+         ;(setScale 1.0 1.0 1.0)
+     )
+ )
+
+ ; Lower torso visual
+ (nd Transform
+ ;basics
+     (setName belly)
+     (setLocalPos $LowerTorsoPosX $LowerTorsoPosY $LowerTorsoPosZ)
+     (setLocalRotation 45 0 0)
+     (nd Box
+       (setExtents $lowerLenX $lowerLenY $lowerLenZ)
+       (setMaterial matGrey)
+    )
+ )
+
+ ; Head visual
+ (nd Transform
+     ; basics
+     (setName head)
+     (setLocalPos $HeadPosX $HeadPosY $HeadPosZ )
+     (nd Sphere
+       (setRadius $headRadius)
+       (setMaterial matGrey)
+     )
+ )
+)

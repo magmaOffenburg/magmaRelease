@@ -1,0 +1,50 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    (templ  $PerName     $EffName   
+            $Path_Body1  $Path_Body2
+            $Anchor_X    $Anchor_Y   $Anchor_Z
+            $Axis_X      $Axis_Y     $Axis_Z
+            $MinDeg      $MaxDeg
+            $MaxAbsSpeed
+    )
+    
+    ; There are 2 types of motor installed on the real Nao, each type has 
+    ; 2 types of "Reduction ratio". 
+    ; So, there are all 4 types of joint speed.
+    ; They are: 188.67 deg/s, 290.25 deg/s, 305.16 deg/s, 351.77 deg/s
+    ; The maximum of them is 351.77.
+    ; We don't need to follow them totally that different hingeeffector is using 
+    ; different types of motor.
+    ; All the hingeeffector uses the 351.77
+    ; (def $MaxAbsSpeed (eval $PI * (eval 351.77 / 180.0)))
+
+    ;
+    ;Hinge Joint Parameters
+    ;
+    (def $FMax          10)
+    (def $CFM           1e-8)
+    (def $Stop_CFM      1e-8)
+    (def $Stop_ERP      0.8)
+    (def $FudgeFactor   1e-5)
+    (def $Bounce        1)
+    
+    (nd HingeJoint
+            (attach             $Path_Body1  $Path_Body2)
+            (setAnchor          $Anchor_X    $Anchor_Y  $Anchor_Z)
+            (setAxis            $Axis_X      $Axis_Y    $Axis_Z)
+            (setMaxMotorForce   0  $FMax)
+            (setCFM             0  $CFM)
+            (setStopCFM         0  $Stop_CFM)
+            (setStopERP         0  $Stop_ERP)
+            (setFudgeFactor     0  $FudgeFactor)
+            (setBounce          0  $Bounce)
+            (setLowStopDeg      0  $MinDeg)
+            (setHighStopDeg     0  $MaxDeg)
+            (setJointMaxSpeed1  $MaxAbsSpeed)
+            
+            (nd HingePerceptor (setName $PerName))
+            (nd HingeEffector  (setName $EffName))
+     )
+)

@@ -1,0 +1,31 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    (templ  $PerName     $EffName   
+            $Path_Body1  $Path_Body2
+            $Anchor_X    $Anchor_Y   $Anchor_Z
+            $Axis_X      $Axis_Y     $Axis_Z
+            $MinDeg      $MaxDeg
+            $MaxAbsSpeed
+    )
+    
+    ; There are 2 types of motor installed on the real Nao, each type has 
+    ; 2 types of "Reduction ratio". 
+    ; So, there are all 4 types of joint speed.
+    ; They are: 188.67 deg/s, 290.25 deg/s, 305.16 deg/s, 351.77 deg/s
+    ; The maximum of them is 351.77.
+    ; We do not need to follow them totally that different hingeeffector is using 
+    ; different types of motor.
+    ; All the hingeeffector uses the 351.77
+    ; (def $PI 3.14159265)
+    ; (def $MaxAbsSpeed (eval $PI * (eval 351.77 / 180.0)))
+
+   (importScene rsg/util/joint/hingejointPower.rsg $PerName     $EffName   
+            					   $Path_Body1  $Path_Body2
+            					   $Anchor_X    $Anchor_Y   $Anchor_Z
+            					   $Axis_X      $Axis_Y     $Axis_Z
+            					   $MinDeg      $MaxDeg
+            					   $MaxAbsSpeed 10)
+
+)

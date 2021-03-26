@@ -1,0 +1,6 @@
+* text=auto !eol
+
+*.sh			eol=lf
+*.bat			eol=crlf
+*.sonar4clipse	eol=crlf
+*.obj			-text

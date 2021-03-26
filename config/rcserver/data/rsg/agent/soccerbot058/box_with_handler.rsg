@@ -1,0 +1,24 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (templ $lenX $lenY $lenZ $totalMass $material)
+ (nd Box
+       (setExtents $lenX $lenY $lenZ)
+       (setMaterial $material)
+       )
+
+ (nd RigidBody
+       (setName boxBody)
+       (setBoxTotal $totalMass $lenX $lenY $lenZ)
+       (nd DragController
+	     (setAngularDrag 0.01)
+	     (setLinearDrag 0.01)
+	)
+ )
+
+ (nd BoxCollider
+       (setBoxLengths $lenX $lenY $lenZ)
+       (importScene rsg/agent/nao/touchperceptorhandler.rsg)
+       )
+ )

@@ -1,0 +1,272 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ ;;
+ ;; define constants, copy values from the ScriptServer Soccer namespace
+ ;;
+
+ (def $FieldLength (eval Soccer.FieldLength))
+ (def $FieldWidth  (eval Soccer.FieldWidth))
+ (def $FieldHeight (eval Soccer.FieldHeight))
+ (def $GoalDepth   (eval Soccer.GoalDepth))
+ (def $PenaltyLength (eval Soccer.PenaltyLength))
+ (def $PenaltyWidth (eval Soccer.PenaltyWidth + Soccer.GoalWidth))
+ (def $FreeKickDistance (eval Soccer.FreeKickDistance))
+
+ ;; height of the field ground plane
+ (def $FieldMaterial matGrass)
+
+ ;; calc some helper vars
+ (def $FieldBase 0)
+ (def $FieldHalfLength (eval $FieldLength / 2.0))
+ (def $FieldHalfHeight (eval $FieldHeight / 2.0))
+ (def $FieldHalfWidth  (eval $FieldWidth / 2.0))
+ (def $GoalHalfDepth   (eval $GoalDepth / 2.0))
+ (def $FieldLengthTextureSize (eval $FieldLength / 12.0 ))
+ (def $FieldWidthTextureSize (eval $FieldWidth / 8.0 ))
+ (def $PenaltyX (eval $FieldHalfLength - $PenaltyLength ))
+ (def $PenaltyHalfWidth (eval $PenaltyWidth * 0.5 ))
+
+ (def $BorderLength (eval $FieldLength * 0.333))
+ (def $BorderWidth   (eval $FieldWidth * 0.75))
+ (def $SideExt 1)
+ 
+ ;;
+ ;; construct playing field
+ ;;
+
+ ;; add lights
+ (nd Transform
+       (setLocalPos -10 10 10)
+       (nd Light
+	     (setDiffuse 1.0 1.0 1.0 1.0)
+	     (setSpecular 0.1 0.1 0.1 1.0)
+	     (setAmbient 0.8 0.8 0.8 1.0)
+	     )
+
+       )
+
+ ;; add lights
+ (nd Transform
+       (setLocalPos 10 -10 10)
+       (nd Light
+	     (setDiffuse 1.0 1.0 1.0 1.0)
+	     (setSpecular 0.1 0.1 0.1 1.0)
+	     (setAmbient 0.0 0.0 0.0 1.0)
+	     )
+       )
+
+ ;; create the base plane
+ (nd Transform
+       (setLocalPos 0 0 $FieldBase)
+
+	(setLocalRotation 90 180 0)
+	(nd StaticMesh
+          	(load 'models/naosoccerfield.obj')
+		(setScale $FieldLengthTextureSize
+			  1
+			  $FieldWidthTextureSize)
+      	)
+
+       (nd PlaneCollider
+	     (setParams 0 0 1.0 0)
+	     (nd ContactJointHandler
+		   (setContactBounceMode false)
+
+		   (setContactSlipMode true)
+		   (setContactSlip 0.1 0.1)
+
+		   (setContactSoftERPMode true)
+		   (setContactSoftERP 0.2)
+
+		   (setContactSoftCFM true)
+		   (setContactSoftCFM 0.01)
+		   )
+	     )
+       )
+
+; create skybox
+(nd Transform
+       (setLocalPos 0 0 0)
+
+	(setLocalRotation 90 180 0)
+	(nd StaticMesh
+          	(load 'models/skybox.obj')
+		(setScale 10
+			  10
+			  10)
+	    )
+	)
+
+ ;; create the left goal
+ (def $LeftGoalX (eval -1* (eval $FieldHalfLength + $GoalHalfDepth)))
+ (importScene rsg/agent/nao/goal.rsg
+	      leftgoal
+	      $LeftGoalX 0 0
+	      G1L G2L
+	      matYellow)
+
+ ;; create the right goal
+ (def $RightGoalX (eval -1 * $LeftGoalX))
+ (importScene rsg/agent/nao/goal.rsg
+	      rightgoal
+	      $RightGoalX 0 180
+	      G2R G1R
+	      matBlue)
+
+ (def $SideLength (eval $SideExt + (eval $FieldLength + (eval 2 * $BorderLength))))
+ (def $SideWidth (eval $SideExt + (eval $FieldWidth + (eval 2 * $BorderWidth))))
+ 
+; create left side wall
+ (nd Transform
+       (setLocalPos (eval -1 * (eval $FieldHalfLength + $BorderLength)) 0 0)
+       (nd Box
+	     (setMaterial matGrey)
+	     (setExtents $SideExt $SideWidth $SideExt)
+	     ) 
+       (nd BoxCollider
+        (setBoxLengths $SideExt $SideWidth $SideExt)
+       )
+       )
+
+; create right side wall
+ (nd Transform
+       (setLocalPos (eval 1 * (eval $FieldHalfLength + $BorderLength)) 0 0)
+       (nd Box
+	     (setMaterial matGrey)
+	     (setExtents $SideExt $SideWidth $SideExt)
+	     ) 
+       (nd BoxCollider
+        (setBoxLengths $SideExt $SideWidth $SideExt)
+       )
+       )
+
+; create back side wall
+ (nd Transform
+       (setLocalPos 0 (eval 1 * (eval $FieldHalfWidth + $BorderWidth)) 0)
+       (nd Box
+	     (setMaterial matGrey)
+	     (setExtents $SideLength $SideExt $SideExt)
+	     ) 
+       (nd BoxCollider
+        (setBoxLengths $SideLength $SideExt $SideExt)
+       )
+       )
+
+; create front side wall
+ (nd Transform
+       (setLocalPos 0 (eval -1 * (eval $FieldHalfWidth + $BorderWidth)) 0)
+       (nd Box
+	     (setMaterial matGrey)
+	     (setExtents $SideLength $SideExt $SideExt)
+	     ) 
+       (nd BoxCollider
+        (setBoxLengths $SideLength $SideExt $SideExt)
+       )
+       )
+
+ ;;
+ ;; add flags
+ ;;
+
+ ;; mark the soccer field with 4 field flags (no visualization)
+ (importScene rsg/agent/flag_no_viz.rsg
+	      (eval -1 * $FieldHalfLength)  
+	      $FieldHalfWidth
+	      0
+	      F1L
+	      )
+
+ (importScene rsg/agent/flag_no_viz.rsg
+	      (eval -1 * $FieldHalfLength) 
+	      (eval -1 * $FieldHalfWidth)
+	      0
+	      F2L
+	      )
+
+ (importScene rsg/agent/flag_no_viz.rsg
+	      $FieldHalfLength 
+	      $FieldHalfWidth 
+	      0
+	      F1R
+	      )
+
+ (importScene rsg/agent/flag_no_viz.rsg
+	      $FieldHalfLength 
+	      (eval -1 * $FieldHalfWidth) 
+	      0 
+	      F2R
+	      )
+;;
+;; add field lines
+;;
+;; middle line
+(importScene rsg/agent/fieldline.rsg
+	     0 (eval -1 * $FieldHalfWidth)
+	     0 $FieldHalfWidth
+	     )
+
+;; ground lines
+(importScene rsg/agent/fieldline.rsg
+	     $FieldHalfLength (eval -1 * $FieldHalfWidth)
+	     $FieldHalfLength $FieldHalfWidth
+	     )
+
+(importScene rsg/agent/fieldline.rsg
+	     (eval -1 * $FieldHalfLength) (eval -1 * $FieldHalfWidth)
+	     (eval -1 * $FieldHalfLength) $FieldHalfWidth
+	     )
+
+;; side lines
+(importScene rsg/agent/fieldline.rsg
+	     $FieldHalfLength $FieldHalfWidth
+	     (eval -1 * $FieldHalfLength) $FieldHalfWidth
+	     )
+
+(importScene rsg/agent/fieldline.rsg
+	     $FieldHalfLength (eval -1 * $FieldHalfWidth)
+	     (eval -1 * $FieldHalfLength) (eval -1 * $FieldHalfWidth)
+	     )
+
+;; penalty lines
+(importScene rsg/agent/fieldline.rsg
+	     $PenaltyX $PenaltyHalfWidth
+	     $PenaltyX (eval -1 * $PenaltyHalfWidth)
+	     )
+
+(importScene rsg/agent/fieldline.rsg
+	     $PenaltyX $PenaltyHalfWidth
+	     $FieldHalfLength $PenaltyHalfWidth
+	     )
+
+(importScene rsg/agent/fieldline.rsg
+	     $PenaltyX (eval -1 * $PenaltyHalfWidth)
+	     $FieldHalfLength (eval -1 * $PenaltyHalfWidth)
+	     )
+
+(importScene rsg/agent/fieldline.rsg
+	     (eval -1 * $PenaltyX) $PenaltyHalfWidth
+	     (eval -1 * $PenaltyX) (eval -1 * $PenaltyHalfWidth)
+	     )
+
+(importScene rsg/agent/fieldline.rsg
+	     (eval -1 * $PenaltyX) $PenaltyHalfWidth
+	     (eval -1 * $FieldHalfLength) $PenaltyHalfWidth
+	     )
+
+(importScene rsg/agent/fieldline.rsg
+	     (eval -1 * $PenaltyX) (eval -1 * $PenaltyHalfWidth)
+	     (eval -1 * $FieldHalfLength) (eval -1 * $PenaltyHalfWidth)
+	     )
+
+;; ring
+(importScene rsg/agent/fieldring.rsg
+	     $FreeKickDistance)
+
+;;
+;; add the ball
+;;
+ (importScene rsg/agent/ball.rsg)
+
+ )

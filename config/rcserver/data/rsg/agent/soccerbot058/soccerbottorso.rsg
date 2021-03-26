@@ -1,0 +1,79 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (templ $upperLenX $upperLenY $upperLenZ $upperMass
+        $lowerLenX $lowerLenY $lowerLenZ $lowerMass
+        $scale)
+
+ (def $LowerTorsoPosX 0)
+ (def $LowerTorsoPosY 0)
+ (def $LowerTorsoPosZ (eval -0.5 * $upperLenZ))
+
+ ;(def $HeadPosX 0)
+ ;(def $HeadPosY (eval 0.05 * $scale))
+ ;(def $HeadPosZ (eval (eval (eval 0.5 * $upperLenZ)
+;			    + (eval 0.1 * $scale))
+;		      + (eval $headRadius / 2.0)))
+
+ (nd RigidBody
+       (setName boxBody)
+       ; Upper torso mass
+       (setBoxTotal $upperMass $upperLenX $upperLenY $upperLenZ)
+       ; Lower torso mass
+       (addBox $lowerMass
+               $lowerLenX $lowerLenY $lowerLenZ
+               $LowerTorsoPosX $LowerTorsoPosY $LowerTorsoPosZ
+               45 0 0
+       )
+
+       (nd DragController
+	     (setAngularDrag 0.01)
+	     (setLinearDrag 0.01)
+	)
+ )
+
+ ; Upper torso collider
+ (nd TransformCollider
+     (nd BoxCollider
+           (setBoxLengths $upperLenX $upperLenY $upperLenZ)
+	   (importScene rsg/agent/nao/contactjointhandler.rsg)
+           )
+ )
+
+ ; Lower torso collider
+ (nd TransformCollider
+       (nd BoxCollider
+        (setBoxLengths $lowerLenX $lowerLenY $lowerLenZ)
+        (setLocalPosition $LowerTorsoPosX $LowerTorsoPosY $LowerTorsoPosZ)
+        (setRotation 45 0 0)
+	(importScene rsg/agent/nao/contactjointhandler.rsg)
+       )
+ )
+
+ ; Upper torso visual
+ (nd Transform
+     (setName chest)
+     (setLocalPos 0 0 0)
+     (setLocalRotation 90 180 0)
+
+     (nd SingleMatNode
+         (load 'models/soccerbottorso.obj')
+         (setScale (eval 0.5 * $upperLenX)
+		   (eval 0.5 * $upperLenY)
+		   (eval 0.5 * $upperLenZ))
+     )
+ )
+
+ ; Lower torso visual
+ (nd Transform
+     (setName belly)
+     (setLocalPos $LowerTorsoPosX $LowerTorsoPosY $LowerTorsoPosZ)
+     (setLocalRotation 45 0 0)
+     (nd Box
+       (setExtents $lowerLenX $lowerLenY $lowerLenZ)
+       (setMaterial matGrey)
+    ))
+
+ )
+)

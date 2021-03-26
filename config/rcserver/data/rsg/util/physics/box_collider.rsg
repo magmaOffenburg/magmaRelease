@@ -1,0 +1,13 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    (templ $name $lenX $lenY $lenZ)
+
+    (nd BoxCollider
+        (setName (join $name Collider))
+        (setBoxLengths $lenX $lenY $lenZ)
+
+        (importScene rsg/util/physics/contactjointhandler.rsg)
+    )
+)

@@ -1,0 +1,19 @@
+/* Copyright 2008 - 2021 Hochschule Offenburg
+ * For a list of authors see README.md
+ * This software of HSOAutonomy is released under GPL-3 License (see gpl.txt).
+ */
+
+package kdo.search.classic;
+
+/**
+ * Tests the iterative binary search implementation
+ *
+ * @author Klaus Dorer
+ */
+public class BinaryIterativeSearchTest extends SearchAlgorithmTest
+{
+	protected ISearchAlgorithm createSearchMethod()
+	{
+		return new BinaryIterativeSearch();
+	}
+}

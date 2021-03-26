@@ -1,0 +1,172 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (templ $armMat $handMat)
+
+ ; hand1
+ (def $HandBox1Length 0.082)
+ (def $HandBox1Width 0.272) 
+ (def $HandBox1Height 0.57)
+ (def $HandBox1Mass 0.075)
+ 
+ ; hand2
+ (def $HandBox2Length 0.242)
+ (def $HandBox2Width 0.265)
+ (def $HandBox2Height 0.164)
+
+ ; hand3
+ (def $HandBox3Length 0.074)
+ (def $HandBox3Width 0.272)
+ (def $HandBox3Height 0.2)
+ (def $HandBox3Mass 0.05)
+ 
+ ; lower arms
+ (def $LowerarmLength 0.445)
+ (def $LowerarmWidth 0.316)
+ (def $LowerarmHeight 0.6)
+ (def $LowerarmMass 0.2)
+
+ (def $Hand1PosX (eval $LowerarmWidth / 2.0))
+ (def $Hand1PosY 0 )
+ (def $Hand1PosZ (eval (eval
+                         (eval $LowerarmHeight / -2.0)
+                         - (eval $HandBox1Height / 2.0) ) - 0.04 ) )
+
+ (def $Hand2PosX (eval (eval $LowerarmLength / 2.0) - (eval $HandBox2Length / 2.0) - 0.1))
+ (def $Hand2PosY 0)
+ (def $Hand2PosZ (eval -1 * (eval (eval $LowerarmHeight / 2.0) + (eval $HandBox2Height / 2.0)) ))
+
+ (def $Hand3PosX (eval $LowerarmWidth / -2.0))
+ (def $Hand3PosY 0)
+ (def $Hand3PosZ (eval (eval
+                        (eval $LowerarmHeight / - 2.0)
+                        - (eval $HandBox3Height / 2.0) ) - 0.04 ) )
+
+
+ (nd RigidBody
+       (setName boxBody)
+       ; Lower arm mass
+       (setBox $LowerarmMass $LowerarmLength $LowerarmWidth $LowerarmHeight)
+       ; Hand box 1 mass
+       (addBox $HandBox1Mass
+               $HandBox1Length $HandBox1Width $HandBox1Height
+               $Hand1PosX $Hand1PosY $Hand1PosZ
+               0 0 0
+       )
+       ; Hand box 3 mass
+       (addBox $HandBox3Mass
+               $HandBox3Length $HandBox3Width $HandBox3Height
+               $Hand3PosX $Hand3PosY $Hand3PosZ
+               0 0 0
+       )
+       
+       (nd DragController
+	     (setAngularDrag 0.01)
+	     (setLinearDrag 0.01)
+	)
+ )
+
+ ; Arm collider
+ (nd TransformCollider
+     (nd BoxCollider
+           (setBoxLengths $LowerarmLength $LowerarmWidth $LowerarmHeight)
+           (nd ContactJointHandler
+    	     (setContactBounceMode false)
+
+    	     (setContactSlipMode true)
+    	     (setContactSlip 0.1 0.1)
+
+    	     (setContactSoftERPMode true)
+    	     (setContactSoftERP 0.2)
+
+    	     (setContactSoftCFM true)
+    	     (setContactSoftCFM 0.01)
+
+           )
+     )
+ )
+ 
+ ; Hand box 1 collider
+ (nd TransformCollider
+       (nd BoxCollider
+        (setBoxLengths $HandBox1Length $HandBox1Width $HandBox1Height)
+        (setLocalPosition $Hand1PosX $Hand1PosY $Hand1PosZ)
+       )
+       (nd ContactJointHandler
+	     (setContactBounceMode false)
+
+	     (setContactSlipMode true)
+	     (setContactSlip 0.1 0.1)
+
+	     (setContactSoftERPMode true)
+	     (setContactSoftERP 0.2)
+
+	     (setContactSoftCFM true)
+	     (setContactSoftCFM 0.01)
+
+       )
+ )
+
+ ; Hand box 3 collider
+ (nd TransformCollider
+       (nd BoxCollider
+        (setBoxLengths $HandBox3Length $HandBox3Width $HandBox3Height)
+        (setLocalPosition $Hand3PosX $Hand3PosY $Hand3PosZ)
+       )
+       (nd ContactJointHandler
+	     (setContactBounceMode false)
+
+	     (setContactSlipMode true)
+	     (setContactSlip 0.1 0.1)
+
+	     (setContactSoftERPMode true)
+	     (setContactSoftERP 0.2)
+
+	     (setContactSoftCFM true)
+	     (setContactSoftCFM 0.01)
+
+       )
+ )
+
+ ; Arm visual
+ (nd Transform
+ ;basics
+     (setName arm)
+     (nd Box
+       (setExtents $LowerarmLength $LowerarmWidth $LowerarmHeight)
+       (setMaterial $armMat)
+    )
+ )
+ 
+ ; Virtual hand part visual
+ (nd Transform
+ ;basics
+     (setName hand2)
+     (setLocalPos $Hand2PosX $Hand2PosY $Hand2PosZ)
+     (nd Box
+        (setExtents $HandBox2Length $HandBox2Width $HandBox2Height)
+        (setMaterial $handMat)
+     )
+ ) 
+ 
+ ; Hand box 1 visual
+ (nd Transform
+     (setName hand1)
+     (setLocalPos $Hand1PosX $Hand1PosY $Hand1PosZ)
+     (nd Box
+        (setExtents $HandBox1Length $HandBox1Width $HandBox1Height)
+        (setMaterial $handMat)
+     )
+ )
+ 
+ ; Hand box 3 visual
+ (nd Transform
+     (setName hand3)
+     (setLocalPos $Hand3PosX $Hand3PosY $Hand3PosZ)
+     (nd Box
+        (setExtents $HandBox3Length $HandBox3Width $HandBox3Height)
+        (setMaterial $handMat)
+     )
+ )
+)

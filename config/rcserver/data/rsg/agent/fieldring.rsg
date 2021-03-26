@@ -1,0 +1,89 @@
+; -*- mode: lisp; -*-
+;
+; create a field ring with radius $Radius
+;
+
+(RSG 0 1)
+(
+ (templ $Radius)
+
+ (def $px0 (eval 1.0 * $Radius))
+ (def $py0 0.0)
+
+ (def $px36 (eval 0.80901699437494745 * $Radius))
+ (def $py36 (eval 0.58778525229247314 * $Radius))
+
+ (def $px72 (eval 0.30901699437494745 * $Radius))
+ (def $py72 (eval 0.95105651629515353 * $Radius))
+
+ (def $px108 (eval -0.30901699437494734 * $Radius))
+ (def $py108 (eval 0.95105651629515364 * $Radius))
+
+ (def $px144 (eval -0.80901699437494734 * $Radius))
+ (def $py144 (eval 0.58778525229247325 * $Radius))
+
+ (def $px180 (eval -1.0 * $Radius))
+ (def $py180 (eval 0.0))
+
+ (def $px216 $px144)
+ (def $py216 (eval -1 * $py144))
+
+ (def $px252 $px108)
+ (def $py252 (eval -1 * $py108))
+
+ (def $px288 $px72)
+ (def $py288 (eval -1 * $py72))
+
+ (def $px324 $px36)
+ (def $py324 (eval -1 * $py36))
+
+ (importScene rsg/agent/fieldline.rsg
+	      $px0 $py0
+	      $px36 $py36
+	      )
+
+ (importScene rsg/agent/fieldline.rsg
+	      $px36 $py36
+	      $px72 $py72
+	      )
+
+ (importScene rsg/agent/fieldline.rsg
+	      $px72 $py72
+	      $px108 $py108
+	      )
+
+  (importScene rsg/agent/fieldline.rsg
+	      $px108 $py108
+	      $px144 $py144
+	      )
+
+  (importScene rsg/agent/fieldline.rsg
+	       $px144 $py144
+	       $px180 $py180
+	       )
+
+  (importScene rsg/agent/fieldline.rsg
+	       $px180 $py180
+	       $px216 $py216
+	       )
+
+  (importScene rsg/agent/fieldline.rsg
+	       $px216 $py216
+	       $px252 $py252
+	       )
+
+  (importScene rsg/agent/fieldline.rsg
+	       $px252 $py252
+	       $px288 $py288
+	       )
+
+  (importScene rsg/agent/fieldline.rsg
+	       $px288 $py288
+	       $px324 $py324
+	       )
+
+  (importScene rsg/agent/fieldline.rsg
+	       $px324 $py324
+	       $px0 $py0
+	       )
+ )

@@ -1,0 +1,124 @@
+;; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (templ $LowerarmLength $LowerarmWidth $LowerarmHeight $LowerarmMass
+	$HandBox1Length $HandBox1Width $HandBox1Height $HandBox1Mass
+	$HandBox2Length $HandBox2Width $HandBox2Height
+	$HandBox3Length $HandBox3Width $HandBox3Height $HandBox3Mass
+	$armMat $handMat $side $scale)
+
+
+ (def $Hand1PosX (eval $side * (eval $LowerarmWidth / -2.0)))
+ (def $Hand1PosY 0 )
+ (def $Hand1PosZ (eval
+		  (eval (eval $LowerarmHeight / -2.0)
+			- (eval $HandBox1Height / 2.0) )
+		  - (eval 0.04 * $scale)))
+
+ (def $Hand2PosX (eval $side * (eval (eval $LowerarmLength / 2.0)
+				     - (eval $HandBox2Length / 2.0)
+				     - (eval 0.1 * $scale))))
+ (def $Hand2PosY 0)
+ (def $Hand2PosZ (eval -1 *
+		       (eval (eval $LowerarmHeight / 2.0)
+			     + (eval $HandBox2Height / 2.0)) ))
+
+ (def $Hand3PosX (eval $side * (eval $LowerarmWidth / 2.0)))
+ (def $Hand3PosY 0)
+ (def $Hand3PosZ (eval (eval
+                        (eval $LowerarmHeight / -2.0)
+                        - (eval $HandBox3Height / 2.0) )
+		       - (eval 0.04 * $scale)))
+
+
+ (nd RigidBody
+     (setName boxBody)
+     ;; Lower arm
+     (setBox $LowerarmMass $LowerarmLength $LowerarmWidth $LowerarmHeight)
+     ;; Hand box 1
+     (addBox $HandBox1Mass
+	     $HandBox1Length $HandBox1Width $HandBox1Height
+	     $Hand1PosX $Hand1PosY $Hand1PosZ
+	     0 0 0
+	     )
+     ;; Hand box 3
+     (addBox $HandBox3Mass
+	     $HandBox3Length $HandBox3Width $HandBox3Height
+	     $Hand3PosX $Hand3PosY $Hand3PosZ
+	     0 0 0
+	     )
+       
+     (nd DragController
+	 (setAngularDrag 0.01)
+	 (setLinearDrag 0.01)
+	 )
+     )
+
+
+ ;; Arm collider
+ (nd TransformCollider
+     
+     (nd BoxCollider
+	 (setBoxLengths $LowerarmLength $LowerarmWidth $LowerarmHeight)
+	 (importScene rsg/agent/soccerbot058/contactjointhandler.rsg)
+	 )
+     )
+ ;; Hand box 1 collider
+ (nd TransformCollider
+    
+     (nd BoxCollider
+	 (setBoxLengths $HandBox1Length $HandBox1Width $HandBox1Height)
+	 (setLocalPosition $Hand1PosX $Hand1PosY $Hand1PosZ)
+	 (importScene rsg/agent/soccerbot058/contactjointhandler.rsg)
+	 )
+     )
+ ;; Hand box 3 collider
+ (nd TransformCollider
+     
+     (nd BoxCollider
+	 (setBoxLengths $HandBox3Length $HandBox3Width $HandBox3Height)
+	 (setLocalPosition $Hand3PosX $Hand3PosY $Hand3PosZ)
+	 (importScene rsg/agent/soccerbot058/contactjointhandler.rsg)
+	 )
+     )
+
+ ;; Arm visual
+ (nd Transform
+     (setName arm)
+     (nd Box
+	 (setExtents $LowerarmLength $LowerarmWidth $LowerarmHeight)
+	 (setMaterial $armMat)
+	 )
+     )
+ 
+ ;; Virtual hand part visual
+ (nd Transform
+     (setName hand2)
+     (setLocalPos $Hand2PosX $Hand2PosY $Hand2PosZ)
+     (nd Box
+	 (setExtents $HandBox2Length $HandBox2Width $HandBox2Height)
+	 (setMaterial $handMat)
+	 )
+     )
+ 
+ ;; Hand box 1 visual
+ (nd Transform
+     (setName hand1)
+     (setLocalPos $Hand1PosX $Hand1PosY $Hand1PosZ)
+     (nd Box
+	 (setExtents $HandBox1Length $HandBox1Width $HandBox1Height)
+	 (setMaterial $handMat)
+	 )
+     )
+ 
+ ;; Hand box 3 visual
+ (nd Transform
+     (setName hand3)
+     (setLocalPos $Hand3PosX $Hand3PosY $Hand3PosZ)
+     (nd Box
+	 (setExtents $HandBox3Length $HandBox3Width $HandBox3Height)
+	 (setMaterial $handMat)
+	 )
+     )
+ )

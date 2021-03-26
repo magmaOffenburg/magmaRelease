@@ -1,0 +1,112 @@
+		<EBN>
+		  <NetworkParams>
+		    <concurrentActions>true</concurrentActions>
+		    <goalTracking>true</goalTracking>
+		    <inboxProcessing>false</inboxProcessing>
+		    <transferFunction>true</transferFunction>
+		    <beta>0.4</beta>
+		    <delta>0.7</delta>
+		    <gain>5.0</gain>
+		    <gamma>0.8</gamma>
+		    <sigma>0.55</sigma>
+		    <theta>0.8</theta>
+		    <thetaReduction>0.1</thetaReduction>
+		  </NetworkParams>
+		  <Perceptions>
+		    <PerceptionNode>
+		      <BeliefName>true1</BeliefName>
+		    </PerceptionNode>
+		    <PerceptionNode>
+		      <BeliefName>true2</BeliefName>
+		    </PerceptionNode>
+		  </Perceptions>
+		  <Resources>
+		    <Resource>
+		      <BeliefName>Belief3</BeliefName>
+		    </Resource>
+		  </Resources>
+		  <Goals>
+		    <Goal>
+		      <name>true1</name>
+		      <relevanceCondition>
+		        <propositions>
+		          <Proposition>
+		
+            <perceptionNode reference="../../../../../../Perceptions/PerceptionNode[2]"/>
+		            <isNegated>false</isNegated>
+		
+            <containingNode class="kdo.ebn.Goal" reference="../../../.."/>
+		          </Proposition>
+		        </propositions>
+		      </relevanceCondition>
+		      <goalCondition>
+		
+        <perceptionNode reference="../../../../Perceptions/PerceptionNode"/>
+		        <isNegated>false</isNegated>
+		
+        <containingNode class="kdo.ebn.Goal" reference="../.."/>
+		      </goalCondition>
+		      <importance>0.23</importance>
+		      <index>0</index>
+		    </Goal>
+		  </Goals>
+		  <Competences>
+		    <Competence>
+		      <Name>test1</Name>
+		      <Precondition>
+		        <propositions>
+		          <Proposition>
+		
+            <perceptionNode reference="../../../../../../Perceptions/PerceptionNode[2]"/>
+		            <isNegated>true</isNegated>
+		
+            <containingNode class="Competence" reference="../../../.."/>
+		          </Proposition>
+		          <Proposition>
+		
+            <perceptionNode reference="../../../../../../Perceptions/PerceptionNode"/>
+		            <isNegated>true</isNegated>
+		
+            <containingNode class="Competence" reference="../../../.."/>
+		          </Proposition>
+		        </propositions>
+		      </Precondition>
+		      <Actions>
+		        <Action>Behavior1</Action>
+		      </Actions>
+		      <Effects>
+		        <Effect>
+		          <perceptionNode>
+		
+            <BeliefName reference="../../../../../../Perceptions/PerceptionNode/BeliefName"/>
+		          </perceptionNode>
+		          <isNegated>false</isNegated>
+		
+          <containingNode class="Competence" reference="../../.."/>
+		          <degree>
+		
+            <perceptionNode reference="../../../../../../Perceptions/PerceptionNode"/>
+		            <isNegated>false</isNegated>
+		
+            <containingNode class="Competence" reference="../../../.."/>
+		          </degree>
+		          <probability>0.5</probability>
+		        </Effect>
+		      </Effects>
+		      <ResourcePropositions/>
+		    </Competence>
+		    <Competence>
+		      <Name>test2</Name>
+		      <Precondition>
+		        <propositions/>
+		      </Precondition>
+		      <Actions>
+		
+        <Action reference="../../../Competence/Actions/Action"/>
+		        <Action>Behavior2</Action>
+		      </Actions>
+		      <Effects/>
+		      <ResourcePropositions/>
+		    </Competence>
+		  </Competences>
+		</EBN>

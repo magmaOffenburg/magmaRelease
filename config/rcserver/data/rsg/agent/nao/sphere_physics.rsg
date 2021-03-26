@@ -1,0 +1,19 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    (templ $radius $totalMass)
+
+    (nd RigidBody
+        (setName sphereBody)
+        (setSphereTotal $totalMass $radius)
+
+        (importScene rsg/agent/nao/dragcontroller.rsg)
+    )
+
+    (nd SphereCollider
+        (setRadius $radius)
+
+        (importScene rsg/agent/nao/contactjointhandler.rsg)
+    )
+ )

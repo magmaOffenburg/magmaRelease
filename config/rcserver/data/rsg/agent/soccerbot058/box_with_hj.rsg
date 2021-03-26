@@ -1,0 +1,28 @@
+;; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (templ $name $perceptorName $effectorName $attach
+	$x $y $z
+	$lenX $lenY $lenZ
+	$anchorX $anchorY $anchorZ
+	$axisX $axisY $axisZ
+	$minDeg $maxDeg
+	$totalMass $material)
+
+ (nd Transform
+     (setName $name)
+     (setLocalPos $x $y $z)
+     (importScene rsg/agent/soccerbot058/box.rsg
+		  $lenX $lenY $lenZ
+		  $totalMass $material)
+
+     ;; install hinge joint
+     (importScene rsg/agent/nao/hingejoint.rsg
+		  $perceptorName $effectorName
+		  ../boxBody $attach
+		  $anchorX    $anchorY   $anchorZ
+		  $axisX      $axisY     $axisZ
+		  $minDeg $maxDeg)
+     )
+ )

@@ -1,0 +1,156 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    ;
+    ;Template
+    ;
+    ;@param ParentName the name of the parent node (needed to prevent internal collisions)
+    ;@param ParentBodyPath the absolute path of the parent body (e.g. the trunk: body/Trunk)
+    ;@param Parent_X the global initial x-position of the parent body
+    ;@param Parent_Y the global initial y-position of the parent body
+    ;@param Parent_Z the global initial z-position of the parent body
+    ;@param loadObj true if .obj files should be used for appearance, false for geometric forms (box, sphere, capsule)
+    ;    
+    (templ $ParentName $ParentBodyPath $Parent_X $Parent_Y $Parent_Z $loadObj)
+    
+    ;
+    ;The Names
+    ;
+    (def $TorsoRollName TorsoRoll)
+    (def $TorsoPitchName TorsoPitch)
+	
+    (def $TorsoRollBodyPath (join ../../ $TorsoRollName / $TorsoRollName Body))
+    (def $TorsoPitchAbsoluteBodyPath (join $TorsoPitchName / $TorsoPitchName Body))
+    (def $TorsoPitchBodyPath (join ../../ $TorsoPitchName / $TorsoPitchName Body))
+   
+    ;
+    ;Position Parameters
+    ;
+    (def $TorsoRollRelParent_X 0)
+    (def $TorsoRollRelParent_Y 0)
+    (def $TorsoRollRelParent_Z 0.05)
+	
+    (def $TorsoPitchRelTorsoRoll_X 0)
+    (def $TorsoPitchRelTorsoRoll_Y 0) 
+    (def $TorsoPitchRelTorsoRoll_Z 0.2673)
+
+    (def $TorsoRoll_X (eval $Parent_X + $TorsoRollRelParent_X))
+    (def $TorsoRoll_Y (eval $Parent_Y + $TorsoRollRelParent_Y))
+    (def $TorsoRoll_Z (eval $Parent_Z + $TorsoRollRelParent_Z))
+
+    (def $TorsoPitch_X (eval $TorsoRoll_X + $TorsoPitchRelTorsoRoll_X))
+    (def $TorsoPitch_Y (eval $TorsoRoll_Y + $TorsoPitchRelTorsoRoll_Y))
+    (def $TorsoPitch_Z (eval $TorsoRoll_Z + $TorsoPitchRelTorsoRoll_Z))
+
+    
+    
+    ;
+    ;Size and Mass Parameters
+    ;
+    (def $TorsoRoll_Radius 0.01)
+    (def $TorsoRoll_Mass   0.05)
+    
+    (def $TorsoPitch_SizeX  0.3)
+    (def $TorsoPitch_SizeY  0.1)
+    (def $TorsoPitch_SizeZ  0.5346)
+    (def $TorsoPitch_Mass   7.079324)
+
+    ;
+    ;Joint Parameters
+    ;
+    (def $PI 3.14159265)
+    (def $MaxAbsJointSpeed (eval $PI * (eval 351.77 / 180.0)))
+
+    (def $tj1_min       -20)
+    (def $tj1_max       20)
+    (def $tj1_max_abs_speed $MaxAbsJointSpeed)
+
+    (def $tj2_min       -5)
+    (def $tj2_max       75)
+    (def $tj2_max_abs_speed $MaxAbsJointSpeed)
+    
+
+    (def $tj1_Anchor_X  0)
+    (def $tj1_Anchor_Y  0)
+    (def $tj1_Anchor_Z  -0.2673)
+    
+    ;
+    ;Models obj
+    ;
+    (def $TorsoPitchObj  models/sweaty/ TorsoPitch.obj)
+
+    ;               
+    ;Construct TorsoRoll
+    ;
+    (nd Transform
+        (setName $TorsoRollName)
+        (setLocalPos $TorsoRoll_X $TorsoRoll_Y $TorsoRoll_Z)
+
+        (importScene rsg/util/appearance/sphere_appearance.rsg $TorsoRoll_Radius matYellow)
+        (importScene rsg/util/physics/sphere_physics_nocollider.rsg $TorsoRollName $TorsoRoll_Radius $TorsoRoll_Mass)     
+        (importScene rsg/util/joint/hingejointPower.rsg
+                                tj2 te2
+                                (join ../ $TorsoRollName Body) (join ../../ $ParentBodyPath)
+                                0 0 0
+                                0 1 0
+                                $tj2_min $tj2_max
+                                $tj2_max_abs_speed 40)
+    )
+           
+    ;               
+    ;Construct TorsoPitch
+    ;
+    (nd Transform
+        (setName $TorsoPitchName)
+        (setLocalPos $TorsoPitch_X $TorsoPitch_Y $TorsoPitch_Z)
+        
+        (switch $loadObj
+          (true
+            (nd StaticMesh
+              (load $TorsoPitchObj)
+              (setScale $TorsoPitch_SizeX $TorsoPitch_SizeX $TorsoPitch_SizeX)
+            )
+          )
+          (false
+            (importScene rsg/util/appearance/box_appearance.rsg $TorsoPitch_SizeX $TorsoPitch_SizeY $TorsoPitch_SizeZ matBlue)
+          )
+        )
+
+        (importScene rsg/util/physics/box_physics_nocollider.rsg $TorsoPitchName $TorsoPitch_SizeX $TorsoPitch_SizeY $TorsoPitch_SizeZ $TorsoPitch_Mass)
+        (nd BoxCollider
+          (setName (join $TorsoPitchName Collider))
+          (addNotCollideWithColliderName (join $ParentName Collider) true)
+          (setBoxLengths $TorsoPitch_SizeX $TorsoPitch_SizeY $TorsoPitch_SizeZ)
+          (importScene rsg/util/physics/contactjointhandler.rsg)
+        )
+        
+        (importScene rsg/util/joint/hingejointPower.rsg
+                                tj1 te1
+                                (join ../ $TorsoPitchName Body) $TorsoRollBodyPath
+                                $tj1_Anchor_X $tj1_Anchor_Y $tj1_Anchor_Z
+                                1 0 0
+                                $tj1_min $tj1_max
+                                $tj1_max_abs_speed 40)
+    )
+    
+
+    ;
+    ;The Head
+    ;
+    (importScene rsg/agent/sweaty/sweaty_neckhead.rsg $TorsoPitchName $TorsoPitchAbsoluteBodyPath $TorsoPitch_X $TorsoPitch_Y $TorsoPitch_Z $loadObj)
+
+    ;
+    ;The Right Arm
+    ;
+    (importScene rsg/agent/sweaty/sweaty_arm.rsg
+              1 r
+              $TorsoPitchName $TorsoPitchAbsoluteBodyPath $TorsoPitch_X $TorsoPitch_Y $TorsoPitch_Z $loadObj)
+    
+    ;
+    ;The Left Arm
+    ;
+    (importScene rsg/agent/sweaty/sweaty_arm.rsg
+              -1 l
+              $TorsoPitchName $TorsoPitchAbsoluteBodyPath $TorsoPitch_X $TorsoPitch_Y $TorsoPitch_Z $loadObj)
+)

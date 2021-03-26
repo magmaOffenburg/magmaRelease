@@ -1,0 +1,126 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    (templ $Torso_X $Torso_Y $Torso_Z $loadObj
+           $type
+    )
+    
+    ;
+    ;neck parameter
+    ;
+    (def $Neck_X        $Torso_X)
+    (def $Neck_Y        $Torso_Y)
+    (def $Neck_Z        (eval $Torso_Z + 0.09))
+    (def $Neck_Radius   0.015)
+    (def $Neck_Length   0.08)
+    (def $Neck_Mass     0.050)
+    
+    
+    ;
+    ;head parameter
+    ;
+    (def $Head_X        $Neck_X)
+    (def $Head_Y        $Neck_Y)
+    (def $Head_Z        (eval $Neck_Z + 0.065))
+    (def $Head_Radius   0.065)
+    (def $Head_Mass     0.350)
+    
+    ;
+    ;Head effector 1 parameter
+    ;
+    (def $PI 3.14159265)
+    (def $MaxAbsJointSpeed (eval $PI * (eval 351.77 / 180.0)))
+    
+    (def $he1_min -120)
+    (def $he1_max 120)
+    (def $he1_max_abs_speed $MaxAbsJointSpeed)
+    
+    ;
+    ;Head effector 2 parameter
+    ;
+    (def $he2_min -45)
+    (def $he2_max 45)
+    (def $he2_max_abs_speed $MaxAbsJointSpeed)
+    
+    ;
+    ;Begin construct neck
+    ;
+    (nd Transform
+        (setName neck)
+        (setLocalPos $Neck_X $Neck_Y $Neck_Z)
+        
+        (importScene rsg/agent/nao/capsule_appearance.rsg $Neck_Radius $Neck_Length matDarkGrey)
+        (importScene rsg/agent/nao/capsule_physics.rsg    $Neck_Radius $Neck_Length $Neck_Mass)
+        
+        (importScene rsg/agent/nao/hingejoint.rsg 
+                            hj1 he1
+                            ../capsuleBody ../../body/boxBody
+                            0 0 0
+                            0 0 1
+                            $he1_min $he1_max
+                            $he1_max_abs_speed)
+    )
+
+    ;
+    ;Begin construct head
+    ;     
+    (nd Transform
+        (setName head)
+        (setLocalPos $Head_X $Head_Y $Head_Z)
+
+        (switch $loadObj
+           (true
+             (nd Transform
+               (setLocalRotation -90 0 180)
+               (nd StaticMesh
+	          (load 'models/naohead.obj')
+	          (setScale 0.1 0.1 0.1)
+               )
+             )
+           )
+	
+           (false
+             (importScene rsg/agent/nao/sphere_appearance.rsg $Head_Radius matRed)
+           )
+        )
+        (importScene rsg/agent/nao/sphere_physics.rsg $Head_Radius $Head_Mass)
+        
+        (importScene rsg/agent/nao/hingejoint.rsg
+                              hj2 he2
+                              ../sphereBody ../../neck/capsuleBody 
+                              ;../boxBody ../../body/boxBody
+                              0 0 -0.005
+                              1 0 0
+                              $he2_min $he2_max
+                              $he2_max_abs_speed)
+
+        (nd RestrictedVisionPerceptor
+            (setViewCones 120 120)
+            (setSenseMyPos false)
+            (setSenseMyOrien false)
+            (setSenseBallPos false)
+            (setStaticSenseAxis false)
+            (addNoise true)
+            (setInterval 3)
+            (setSenseLine true)
+        )
+
+	;; (nd Transform
+	;;     (setLocalPos 0 $Head_Radius 0)
+	;;     (setLocalRotation 0 0 0)
+	;;     (nd ImagePerceptor
+	;; 	(setInterval 3)
+	;; 	(setOffScreen false)
+	;; 	(setResolution 320 240)
+	;; 	(setFOV 58)
+	;; 	(setZNear 0.003)
+	;; 	(setZFar 50)
+	;; 	)
+	;;     )
+
+        (nd ObjectState
+            (setID head)
+        )
+    )
+)

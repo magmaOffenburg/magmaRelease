@@ -1,0 +1,15 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    (templ $name $lenX $lenY $lenZ $totalMass)
+
+    (nd RigidBody
+        (setName (join $name Body))
+        (setBoxTotal $totalMass $lenX $lenY $lenZ)
+
+        (importScene rsg/util/physics/dragcontroller.rsg)
+    )
+
+    (importScene rsg/util/physics/box_collider.rsg $name $lenX $lenY $lenZ)
+)

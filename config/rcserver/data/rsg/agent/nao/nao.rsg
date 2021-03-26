@@ -1,0 +1,7 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (importScene rsg/agent/nao/nao_hetero.rsg 0)
+)
+ 

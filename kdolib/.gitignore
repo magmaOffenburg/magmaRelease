@@ -1,0 +1,16 @@
+/AI
+/build
+/buildTest
+/destination.txt
+/doc
+/generesult.txt
+/source.txt
+bin
+.idea/
+*.TMP
+*.java-*
+/target/
+.settings/*
+.project
+.classpath
+kdolib.iml

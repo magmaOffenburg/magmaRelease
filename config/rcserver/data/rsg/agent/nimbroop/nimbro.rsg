@@ -1,0 +1,1083 @@
+ (RSG 0 1)
+ (
+      (def $TorsoInitZ 1.5)
+      (def $HipZ (eval $TorsoInitZ - 0.148))
+      (def $ThighZ (eval $TorsoInitZ - 0.234))
+      (def $KneeZ (eval $TorsoInitZ - 0.3645))
+      (def $ShankZ (eval $TorsoInitZ - 0.494))
+      (def $AnkleZ (eval $TorsoInitZ - 0.6))
+      (def $FootZ (eval $TorsoInitZ - 0.632))
+      (def $NeckZ (eval $TorsoInitZ + 0.15))
+      (def $HeadZ (eval $TorsoInitZ + 0.233))
+      (def $ShoulderZ (eval $TorsoInitZ + 0.092))
+      (def $UpperArmZ (eval $TorsoInitZ + 0.092))
+      (def $ForeArmZ (eval $TorsoInitZ + 0.118))
+      (nd Space
+          (setName spacenimbro)
+          (disableInnerCollision true)
+          (nd AgentAspect
+              (setName torso)
+              (setLocalPos 0 0 $TorsoInitZ )
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbrotorso.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Box 
+                          (setExtents 0.15 0.13 0.23)
+                          (setMaterial matRed)
+                      );end of primitive
+                  );end of false
+              );end of switch
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 3.2 0.23 0.13 0.23)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd BoxCollider 
+                  (setName torsocollider)
+                  (setBoxLengths 0.23 0.13 0.23)
+                  (nd ContactJointHandler
+                      (setContactBounceMode false)
+                      (setContactBounceValue 0.001)
+                      (setMinBounceVel 10)
+                      (setContactSoftERPMode true)
+                      (setContactSoftERP 0.6)
+                      (setContactSoftCFMMode true)
+                      (setContactSoftCFM 1e-4)
+                      (setContactSlipMode true)
+                      (setContactSlip 5e-3)
+                  )
+                  (nd AgentCollisionHandler 
+                      (setName handler)
+                  )
+              );end of collider
+              (nd StaticMeshInitEffector)
+              (nd TimePerceptor)
+              (nd AgentState
+                  (setName AgentState)
+                  (nd GameStatePerceptor)
+                  (nd HearPerceptor)
+                  (nd Transform
+                      (nd Cylinder
+                          (setName SelectionMarker)
+                          (setParams 1.0 1.0)
+                          (setScale 0.2 0.2 0.02)
+                          (setMaterial matSelect)
+                          (setTransparent)
+                      )
+                  );end of transform
+              );end of agentstate
+              (nd BeamEffector)
+              (nd SayEffector)
+              (nd AgentSyncEffector)
+              (nd Accelerometer
+                  (setName torso)
+              )
+              (nd GyroRatePerceptor
+                  (setName torso)
+              )
+          );end of AgentAspect (generated)
+          (nd Transform
+              (setName lHipYaw)
+              (setLocalPos -0.054 0 $HipZ )
+              (nd Sphere 
+                  (setRadius 0.01)
+                  (setMaterial matYellow)
+              );end of primitive
+              (nd RigidBody 
+                  (setName sphereBody)
+                  (setSphereTotal 0.1 0.01)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd HingeJoint 
+                  (attach ../../lHipYaw/sphereBody ../../torso/boxBody )
+                  (setAnchor 0 0 -0.07)
+                  (setAxis 0 0 1)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -180)
+                  (setHighStopDeg 0 180)
+                  (nd HingePerceptor 
+                      (setName llj1)
+                  )
+                  (nd HingeEffector 
+                      (setName lle1)
+                  )
+              ); end of joint
+          ); end of bodypart lHipYaw (generated)
+          (nd Transform
+              (setName rHipYaw)
+              (setLocalPos 0.054 0 $HipZ )
+              (nd Sphere 
+                  (setRadius 0.01)
+                  (setMaterial matYellow)
+              );end of primitive
+              (nd RigidBody 
+                  (setName sphereBody)
+                  (setSphereTotal 0.1 0.01)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd HingeJoint 
+                  (attach ../../rHipYaw/sphereBody ../../torso/boxBody )
+                  (setAnchor 0 0 -0.07)
+                  (setAxis 0 0 1)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -180)
+                  (setHighStopDeg 0 180)
+                  (nd HingePerceptor 
+                      (setName rlj1)
+                  )
+                  (nd HingeEffector 
+                      (setName rle1)
+                  )
+              ); end of joint
+          ); end of bodypart rHipYaw (generated)
+          (nd Transform
+              (setName lHip)
+              (setLocalPos -0.054 0 $HipZ )
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbrohip.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Sphere 
+                          (setRadius 0.01)
+                          (setMaterial matYellow)
+                      );end of primitive
+                  );end of false
+              );end of switch
+              (nd RigidBody 
+                  (setName sphereBody)
+                  (setSphereTotal 0.1 0.01)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd HingeJoint 
+                  (attach ../../lHip/sphereBody ../../lHipYaw/sphereBody )
+                  (setAnchor 0 0 -0.07)
+                  (setAxis 0 1 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -45)
+                  (setHighStopDeg 0 45)
+                  (nd HingePerceptor 
+                      (setName llj2)
+                  )
+                  (nd HingeEffector 
+                      (setName lle2)
+                  )
+              ); end of joint
+          ); end of bodypart lHip (generated)
+          (nd Transform
+              (setName rHip)
+              (setLocalPos 0.054 0 $HipZ )
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbrohip.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Sphere 
+                          (setRadius 0.01)
+                          (setMaterial matYellow)
+                      );end of primitive
+                  );end of false
+              );end of switch
+              (nd RigidBody 
+                  (setName sphereBody)
+                  (setSphereTotal 0.1 0.01)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd HingeJoint 
+                  (attach ../../rHip/sphereBody ../../rHipYaw/sphereBody )
+                  (setAnchor 0 0 -0.07)
+                  (setAxis 0 1 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -45)
+                  (setHighStopDeg 0 45)
+                  (nd HingePerceptor 
+                      (setName rlj2)
+                  )
+                  (nd HingeEffector 
+                      (setName rle2)
+                  )
+              ); end of joint
+          ); end of bodypart rHip (generated)
+         (nd Transform
+              (setName lThigh)
+              (setLocalPos -0.054 -0.005 $ThighZ )
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbrothigh.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Box 
+                          (setExtents 0.06 0.064 0.22)
+                          (setMaterial matGreen)
+                      );end of primitive
+                  );end of false
+             );end of switch
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 0.291 0.188 0.064 0.188)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+             (nd BoxCollider 
+                  (setName lThighCollider)
+                  (setBoxLengths 0.188 0.064 0.188)
+                  (nd ContactJointHandler
+                      (setContactBounceMode false)
+                      (setContactBounceValue 0.001)
+                      (setMinBounceVel 10)
+                      (setContactSoftERPMode true)
+                      (setContactSoftERP 0.6)
+                      (setContactSoftCFMMode true)
+                      (setContactSoftCFM 1e-4)
+                      (setContactSlipMode true)
+                      (setContactSlip 5e-3)
+                  )
+                 (nd AgentCollisionHandler 
+                      (setName handler)
+                 )
+             );end of collider
+              (nd HingeJoint 
+                  (attach ../../lThigh/boxBody ../../lHip/sphereBody )
+                  (setAnchor 0 0.007 0.076)
+                  (setAxis 1 0 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -25)
+                  (setHighStopDeg 0 100)
+                  (nd HingePerceptor 
+                      (setName llj3)
+                 )
+                  (nd HingeEffector 
+                      (setName lle3)
+                 )
+              ); end of joint
+         ); end of bodypart lThigh (generated)
+         (nd Transform
+              (setName rThigh)
+              (setLocalPos 0.054 -0.005 $ThighZ )
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbrothigh.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Box 
+                          (setExtents 0.06 0.064 0.22)
+                          (setMaterial matGreen)
+                      );end of primitive
+                  );end of false
+             );end of switch
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 0.291 0.188 0.064 0.188)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+             (nd BoxCollider 
+                  (setName rThighCollider)
+                  (setBoxLengths 0.188 0.064 0.188)
+                  (nd ContactJointHandler
+                      (setContactBounceMode false)
+                      (setContactBounceValue 0.001)
+                      (setMinBounceVel 10)
+                      (setContactSoftERPMode true)
+                      (setContactSoftERP 0.6)
+                      (setContactSoftCFMMode true)
+                      (setContactSoftCFM 1e-4)
+                      (setContactSlipMode true)
+                      (setContactSlip 5e-3)
+                  )
+                 (nd AgentCollisionHandler 
+                      (setName handler)
+                 )
+             );end of collider
+              (nd HingeJoint 
+                  (attach ../../rThigh/boxBody ../../rHip/sphereBody )
+                  (setAnchor 0 0.007 0.076)
+                  (setAxis 1 0 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -25)
+                  (setHighStopDeg 0 100)
+                  (nd HingePerceptor 
+                      (setName rlj3)
+                 )
+                  (nd HingeEffector 
+                      (setName rle3)
+                 )
+              ); end of joint
+         ); end of bodypart rThigh (generated)
+         (nd Transform
+              (setName lShank)
+              (setLocalPos -0.054 0.012 $ShankZ )
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbroshank.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Box 
+                          (setExtents 0.06 0.064 0.188)
+                          (setMaterial matGreen)
+                      );end of primitive
+                  );end of false
+             );end of switch
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 0.083 0.188 0.064 0.188)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+             (nd BoxCollider 
+                  (setName lShankCollider)
+                  (setBoxLengths 0.188 0.064 0.188)
+                  (nd ContactJointHandler
+                      (setContactBounceMode false)
+                      (setContactBounceValue 0.001)
+                      (setMinBounceVel 10)
+                      (setContactSoftERPMode true)
+                      (setContactSoftERP 0.6)
+                      (setContactSoftCFMMode true)
+                      (setContactSoftCFM 1e-4)
+                      (setContactSlipMode true)
+                      (setContactSlip 5e-3)
+                  )
+                 (nd AgentCollisionHandler 
+                      (setName handler)
+                 )
+             );end of collider
+              (nd HingeJoint 
+                  (attach ../../lShank/boxBody ../../lThigh/boxBody )
+                  (setAnchor 0 0.004 0.114)
+                  (setAxis 1 0 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -130)
+                  (setHighStopDeg 0 1)
+                  (nd HingePerceptor 
+                      (setName llj4)
+                 )
+                  (nd HingeEffector 
+                      (setName lle4)
+                 )
+              ); end of joint
+         ); end of bodypart lShank (generated)
+         (nd Transform
+              (setName rShank)
+              (setLocalPos 0.054 0.012 $ShankZ )
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbroshank.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Box 
+                          (setExtents 0.06 0.064 0.188)
+                          (setMaterial matGreen)
+                      );end of primitive
+                  );end of false
+             );end of switch
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 0.083 0.188 0.064 0.188)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+             (nd BoxCollider 
+                  (setName rShankCollider)
+                  (setBoxLengths 0.188 0.064 0.188)
+                  (nd ContactJointHandler
+                      (setContactBounceMode false)
+                      (setContactBounceValue 0.001)
+                      (setMinBounceVel 10)
+                      (setContactSoftERPMode true)
+                      (setContactSoftERP 0.6)
+                      (setContactSoftCFMMode true)
+                      (setContactSoftCFM 1e-4)
+                      (setContactSlipMode true)
+                      (setContactSlip 5e-3)
+                  )
+                 (nd AgentCollisionHandler 
+                      (setName handler)
+                 )
+             );end of collider
+              (nd HingeJoint 
+                  (attach ../../rShank/boxBody ../../rThigh/boxBody )
+                  (setAnchor 0 0.004 0.114)
+                  (setAxis 1 0 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -130)
+                  (setHighStopDeg 0 1)
+                  (nd HingePerceptor 
+                      (setName rlj4)
+                 )
+                  (nd HingeEffector 
+                      (setName rle4)
+                 )
+              ); end of joint
+         ); end of bodypart rShank (generated)
+         (nd Transform
+              (setName lAnkle)
+              (setLocalPos -0.054 0.016 $AnkleZ )
+              (nd Sphere 
+                  (setRadius 0.01)
+                  (setMaterial matYellow)
+              );end of primitive
+              (nd RigidBody 
+                  (setName sphereBody)
+                  (setSphereTotal 0.1 0.01)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd HingeJoint 
+                  (attach ../../lAnkle/sphereBody ../../lShank/boxBody )
+                  (setAnchor 0 0 0)
+                  (setAxis 1 0 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -45)
+                  (setHighStopDeg 0 75)
+                  (nd HingePerceptor 
+                      (setName llj5)
+                 )
+                  (nd HingeEffector 
+                      (setName lle5)
+                 )
+              ); end of joint
+         ); end of bodypart lAnkle (generated)
+         (nd Transform
+              (setName rAnkle)
+              (setLocalPos 0.054 0.016 $AnkleZ )
+              (nd Sphere 
+                  (setRadius 0.01)
+                  (setMaterial matYellow)
+              );end of primitive
+              (nd RigidBody 
+                  (setName sphereBody)
+                  (setSphereTotal 0.1 0.01)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd HingeJoint 
+                  (attach ../../rAnkle/sphereBody ../../rShank/boxBody )
+                  (setAnchor 0 0 0)
+                  (setAxis 1 0 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -45)
+                  (setHighStopDeg 0 75)
+                  (nd HingePerceptor 
+                      (setName rlj5)
+                 )
+                  (nd HingeEffector 
+                      (setName rle5)
+                 )
+              ); end of joint
+         ); end of bodypart rAnkle (generated)
+         (nd Transform
+              (setName lFoot)
+              (setLocalPos -0.0655 0.039 $FootZ )
+              (nd ForceResistancePerceptor
+                  (setName lf)
+             );end of forceresistance perceptor
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbrolfoot.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Box 
+                          (setExtents 0.129 0.207 0.013)
+                          (setMaterial matBlue)
+                      );end of primitive
+                  );end of false
+             );end of switch
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 0.129 0.013 0.207 0.013)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+             (nd BoxCollider 
+                  (setName lFootCollider)
+                  (setBoxLengths 0.013 0.207 0.013)
+                  (nd TouchPerceptorHandler
+                      (setContactBounceMode false)
+                      (setContactBounceValue 0.001)
+                      (setMinBounceVel 10)
+                      (setContactSoftERPMode true)
+                      (setContactSoftERP 0.6)
+                      (setContactSoftCFMMode true)
+                      (setContactSoftCFM 1e-4)
+                      (setContactSlipMode true)
+                      (setContactSlip 5e-3)
+                  )
+                 (nd AgentCollisionHandler 
+                      (setName handler)
+                 )
+             );end of collider
+              (nd HingeJoint 
+                  (attach ../../lFoot/boxBody ../../lAnkle/sphereBody )
+                  (setAnchor 0.0115 -0.023 0.032)
+                  (setAxis 0 1 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -45)
+                  (setHighStopDeg 0 45)
+                  (nd HingePerceptor 
+                      (setName llj6)
+                 )
+                  (nd HingeEffector 
+                      (setName lle6)
+                 )
+              ); end of joint
+              (nd ObjectState
+                  (setID lFoot)
+             );end of objectstate
+         ); end of bodypart lFoot (generated)
+         (nd Transform
+              (setName rFoot)
+              (setLocalPos 0.0655 0.039 $FootZ )
+              (nd ForceResistancePerceptor
+                  (setName rf)
+             );end of forceresistance perceptor
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbrorfoot.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Box 
+                          (setExtents 0.129 0.207 0.013)
+                          (setMaterial matBlue)
+                      );end of primitive
+                  );end of false
+             );end of switch
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 0.129 0.013 0.207 0.013)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+             (nd BoxCollider 
+                  (setName rFootCollider)
+                  (setBoxLengths 0.013 0.207 0.013)
+                  (nd TouchPerceptorHandler
+                      (setContactBounceMode false)
+                      (setContactBounceValue 0.001)
+                      (setMinBounceVel 10)
+                      (setContactSoftERPMode true)
+                      (setContactSoftERP 0.6)
+                      (setContactSoftCFMMode true)
+                      (setContactSoftCFM 1e-4)
+                      (setContactSlipMode true)
+                      (setContactSlip 5e-3)
+                  )
+                 (nd AgentCollisionHandler 
+                      (setName handler)
+                 )
+             );end of collider
+              (nd HingeJoint 
+                  (attach ../../rFoot/boxBody ../../rAnkle/sphereBody )
+                  (setAnchor -0.0115 -0.023 0.032)
+                  (setAxis 0 1 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -45)
+                  (setHighStopDeg 0 45)
+                  (nd HingePerceptor 
+                      (setName rlj6)
+                 )
+                  (nd HingeEffector 
+                      (setName rle6)
+                 )
+              ); end of joint
+              (nd ObjectState
+                  (setID rFoot)
+             );end of objectstate
+         ); end of bodypart rFoot (generated)
+          (nd Transform
+              (setName neck)
+              (setLocalPos 0 0.002 $NeckZ )
+              (nd Box 
+                  (setExtents 0.0402 0.041 0.0611)
+                  (setMaterial matDarkGrey)
+              );end of primitive
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 0.1 0.0611 0.041 0.0611)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd HingeJoint 
+                  (attach ../../neck/boxBody ../../torso/boxBody )
+                  (setAnchor 0 0 -0.032)
+                  (setAxis 0 0 1)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -90)
+                  (setHighStopDeg 0 90)
+                  (nd HingePerceptor 
+                      (setName hj1)
+                  )
+                  (nd HingeEffector 
+                      (setName he1)
+                  )
+              ); end of joint
+          ); end of bodypart neck (generated)
+          (nd Transform
+              (setName head)
+              (setLocalPos 0 0.002 $HeadZ )
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbrohead.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Box 
+                          (setExtents 0.146 0.153 0.14)
+                          (setMaterial matBlue)
+                      );end of primitive
+                  );end of false
+              );end of switch
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 1.08 0.14 0.153 0.14)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd HingeJoint 
+                  (attach ../../head/boxBody ../../neck/boxBody )
+                  (setAnchor 0 0.005 -0.072)
+                  (setAxis 1 0 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -45)
+                  (setHighStopDeg 0 45)
+                  (nd HingePerceptor 
+                      (setName hj2)
+                  )
+                  (nd HingeEffector 
+                      (setName he2)
+                  )
+              ); end of joint
+              (nd RestrictedVisionPerceptor
+                  (setViewCones 180 180)
+                  (setSenseMyPos false)
+                  (setSenseBallPos false)
+                  (setStaticSenseAxis false)
+                  (addNoise true)
+                  (setInterval 3)
+                  (setSenseLine true)
+              );end of vision perceptor
+              (nd ObjectState
+                  (setID head)
+              );end of objectstate
+          ); end of bodypart head (generated)
+          (nd Transform
+              (setName lShoulder)
+              (setLocalPos 0.11 -0.024 $ShoulderZ )
+              (nd Sphere 
+                  (setRadius 0.01)
+                  (setMaterial matYellow)
+              );end of primitive
+              (nd RigidBody 
+                  (setName sphereBody)
+                  (setSphereTotal 0.1 0.1)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd HingeJoint 
+                  (attach ../../lShoulder/sphereBody ../../torso/boxBody )
+                  (setAnchor 0 0 0)
+                  (setAxis 1 0 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -120)
+                  (setHighStopDeg 0 120)
+                  (nd HingePerceptor 
+                      (setName laj1)
+                  )
+                  (nd HingeEffector 
+                      (setName lae1)
+                  )
+              ); end of joint
+          ); end of bodypart lShoulder (generated)
+          (nd Transform
+              (setName lUpperArm)
+              (setLocalPos 0.11 0.06 $UpperArmZ )
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbroupperarm.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Box 
+                          (setExtents 0.051 0.19 0.049)
+                          (setMaterial matGreen)
+                      );end of primitive
+                  );end of false
+              );end of switch
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 0.189 0.049 0.19 0.049)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd BoxCollider 
+                  (setName lUpperArmCollider)
+                  (setBoxLengths 0.049 0.19 0.049)
+                  (nd ContactJointHandler
+                      (setContactBounceMode false)
+                      (setContactBounceValue 0.001)
+                      (setMinBounceVel 10)
+                      (setContactSoftERPMode true)
+                      (setContactSoftERP 0.6)
+                      (setContactSoftCFMMode true)
+                      (setContactSoftCFM 1e-4)
+                      (setContactSlipMode true)
+                      (setContactSlip 5e-3)
+                  )
+                  (nd AgentCollisionHandler 
+                      (setName handler)
+                  )
+              );end of collider
+              (nd HingeJoint 
+                  (attach ../../lUpperArm/boxBody ../../lShoulder/sphereBody )
+                  (setAnchor 0 -0.08 0)
+                  (setAxis 0 0 1)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 95)
+                  (setHighStopDeg 0 -1)
+                  (nd HingePerceptor 
+                      (setName laj2)
+                  )
+                  (nd HingeEffector 
+                      (setName lae2)
+                  )
+              ); end of joint
+          ); end of bodypart lUpperArm (generated)
+          (nd Transform
+              (setName lForeArm)
+              (setLocalPos 0.11 0.251 $ForeArmZ )
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbrolforearm.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Box 
+                          (setExtents 0.051 0.252 0.076)
+                          (setMaterial matBlue)
+                      );end of primitive
+                  );end of false
+              );end of switch
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 0.173 0.076 0.252 0.076)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd BoxCollider 
+                  (setName lForeArmCollider)
+                  (setBoxLengths 0.076 0.252 0.076)
+                  (nd ContactJointHandler
+                      (setContactBounceMode false)
+                      (setContactBounceValue 0.001)
+                      (setMinBounceVel 10)
+                      (setContactSoftERPMode true)
+                      (setContactSoftERP 0.6)
+                      (setContactSoftCFMMode true)
+                      (setContactSoftCFM 1e-4)
+                      (setContactSlipMode true)
+                      (setContactSlip 5e-3)
+                  )
+                  (nd AgentCollisionHandler 
+                      (setName handler)
+                  )
+              );end of collider
+              (nd HingeJoint 
+                  (attach ../../lForeArm/boxBody ../../lUpperArm/boxBody )
+                  (setAnchor 0 -0.102 0)
+                  (setAxis 1 0 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -1)
+                  (setHighStopDeg 0 180)
+                  (nd HingePerceptor 
+                      (setName laj3)
+                  )
+                  (nd HingeEffector 
+                      (setName lae3)
+                  )
+              ); end of joint
+          ); end of bodypart lForeArm (generated)
+          (nd Transform
+              (setName rShoulder)
+              (setLocalPos -0.11 -0.024 $ShoulderZ )
+              (nd Sphere 
+                  (setRadius 0.01)
+                  (setMaterial matYellow)
+              );end of primitive
+              (nd RigidBody 
+                  (setName sphereBody)
+                  (setSphereTotal 0.1 0.1)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd HingeJoint 
+                  (attach ../../rShoulder/sphereBody ../../torso/boxBody )
+                  (setAnchor 0 0 0)
+                  (setAxis 1 0 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -120)
+                  (setHighStopDeg 0 120)
+                  (nd HingePerceptor 
+                      (setName raj1)
+                  )
+                  (nd HingeEffector 
+                      (setName rae1)
+                  )
+              ); end of joint
+          ); end of bodypart rShoulder (generated)
+          (nd Transform
+              (setName rUpperArm)
+              (setLocalPos -0.11 0.06 $UpperArmZ )
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbroupperarm.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Box 
+                          (setExtents 0.051 0.19 0.049)
+                          (setMaterial matGreen)
+                      );end of primitive
+                  );end of false
+              );end of switch
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 0.189 0.049 0.19 0.049)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd BoxCollider 
+                  (setName rUpperArmCollider)
+                  (setBoxLengths 0.049 0.19 0.049)
+                  (nd ContactJointHandler
+                      (setContactBounceMode false)
+                      (setContactBounceValue 0.001)
+                      (setMinBounceVel 10)
+                      (setContactSoftERPMode true)
+                      (setContactSoftERP 0.6)
+                      (setContactSoftCFMMode true)
+                      (setContactSoftCFM 1e-4)
+                      (setContactSlipMode true)
+                      (setContactSlip 5e-3)
+                  )
+                  (nd AgentCollisionHandler 
+                      (setName handler)
+                  )
+              );end of collider
+              (nd HingeJoint 
+                  (attach ../../rUpperArm/boxBody ../../rShoulder/sphereBody )
+                  (setAnchor 0 -0.08 0)
+                  (setAxis 0 0 1)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 1)
+                  (setHighStopDeg 0 -95)
+                  (nd HingePerceptor 
+                      (setName raj2)
+                  )
+                  (nd HingeEffector 
+                      (setName rae2)
+                  )
+              ); end of joint
+          ); end of bodypart rUpperArm (generated)
+          (nd Transform
+              (setName rForeArm)
+              (setLocalPos -0.11 0.251 $ForeArmZ )
+              (switch true
+                  (true
+                      (nd StaticMesh 
+                          (load 'models/nimbrorforearm.obj')
+                          (setScale 0.1 0.1 0.1)
+                      );end of obj
+                  );end of true
+                  (false
+                      (nd Box 
+                          (setExtents 0.051 0.252 0.076)
+                          (setMaterial matBlue)
+                      );end of primitive
+                  );end of false
+              );end of switch
+              (nd RigidBody 
+                  (setName boxBody)
+                  (setBoxTotal 0.173 0.076 0.252 0.076)
+                  (nd DragController (setAngularDrag 0.01) (setLinearDrag 0.01))
+              );end of rigidbody
+              (nd BoxCollider 
+                  (setName rForeArmCollider)
+                  (setBoxLengths 0.076 0.252 0.076)
+                  (nd ContactJointHandler
+                      (setContactBounceMode false)
+                      (setContactBounceValue 0.001)
+                      (setMinBounceVel 10)
+                      (setContactSoftERPMode true)
+                      (setContactSoftERP 0.6)
+                      (setContactSoftCFMMode true)
+                      (setContactSoftCFM 1e-4)
+                      (setContactSlipMode true)
+                      (setContactSlip 5e-3)
+                  )
+                  (nd AgentCollisionHandler 
+                      (setName handler)
+                  )
+              );end of collider
+              (nd HingeJoint 
+                  (attach ../../rForeArm/boxBody ../../rUpperArm/boxBody )
+                  (setAnchor 0 -0.102 0)
+                  (setAxis 1 0 0)
+                  (setMaxMotorForce 0 10)
+                  (setCFM 0 1e-8)
+                  (setStopCFM 0 1e-8)
+                  (setStopERP 0 0.8)
+                  (setFudgeFactor 0 1e-5)
+                  (setBounce 0 1)
+                  (setJointMaxSpeed1 6.13954)
+                  (setLowStopDeg 0 -1)
+                  (setHighStopDeg 0 180)
+                  (nd HingePerceptor 
+                      (setName raj3)
+                  )
+                  (nd HingeEffector 
+                      (setName rae3)
+                  )
+              ); end of joint
+          ); end of bodypart rForeArm (generated)
+      );end of nd Space
+ );end of RSG (generated)
+
+
+
+

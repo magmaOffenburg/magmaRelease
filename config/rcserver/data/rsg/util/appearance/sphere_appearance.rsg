@@ -1,0 +1,11 @@
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+    (templ $radius $material)
+
+    (nd Sphere
+        (setRadius $radius)
+        (setMaterial $material)
+    )
+)
