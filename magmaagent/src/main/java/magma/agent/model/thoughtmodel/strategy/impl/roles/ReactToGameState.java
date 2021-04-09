@@ -162,7 +162,7 @@ public class ReactToGameState extends Role
 	private double calculateUtility(float x, float y)
 	{
 		double minDistance = Double.MAX_VALUE;
-		List<IPlayer> players = new ArrayList<>(worldModel.getVisiblePlayers());
+		List<IPlayer> players = worldModel.getVisiblePlayers();
 		for (IPlayer player : players) {
 			double distance = player.getPosition().distance(new Vector3D(x, y, 0));
 			if (distance < minDistance) {
