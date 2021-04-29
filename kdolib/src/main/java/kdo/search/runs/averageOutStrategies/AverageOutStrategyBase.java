@@ -3,7 +3,6 @@
  * This software of HSOAutonomy is released under GPL-3 License (see gpl.txt).
  */
 
-
 package kdo.search.runs.averageOutStrategies;
 
 import java.util.Date;

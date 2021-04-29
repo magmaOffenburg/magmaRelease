@@ -5,10 +5,9 @@
 
 package magma.agent.decision.behavior.complex.misc;
 
-import java.util.List;
-
 import hso.autonomy.agent.decision.behavior.BehaviorMap;
 import hso.autonomy.agent.model.thoughtmodel.IThoughtModel;
+import java.util.List;
 import magma.agent.decision.behavior.IBehaviorConstants;
 
 public class PassingChallengeAttack extends Attack

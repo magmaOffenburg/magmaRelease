@@ -5,7 +5,6 @@
 package kdo.tools.genetic.model;
 
 import java.util.List;
-
 import kdo.domain.IIndividuum;
 import kdo.search.strategy.local.genetic.IMutation;
 import kdo.search.strategy.local.genetic.IPopulation;
@@ -356,22 +355,25 @@ public class GeneticOptimization implements IObserver<IPopulation>
 
 	public String[] getSelectionStrategyNames()
 	{
-		String[] names = { GeneticSearchParameter.ELITE_SELECTION, GeneticSearchParameter.RANK_SELECTION,
-				GeneticSearchParameter.MONTE_CARLO_SELECTION, GeneticSearchParameter.MIN_DIVERSITY_MONTE_CARLO_SELECTION,
-				GeneticSearchParameter.AI_LAB_SELECTION };
+		String[] names = {GeneticSearchParameter.ELITE_SELECTION, GeneticSearchParameter.RANK_SELECTION,
+				GeneticSearchParameter.MONTE_CARLO_SELECTION,
+				GeneticSearchParameter.MIN_DIVERSITY_MONTE_CARLO_SELECTION, GeneticSearchParameter.AI_LAB_SELECTION};
 		return names;
 	}
 
 	public String[] getRecombinationStrategyNames()
 	{
-		String[] names = { GeneticSearchParameter.SINGLE_CROSSOVER_RECOMBINATION,
-				GeneticSearchParameter.MULTI_CROSSOVER_RECOMBINATION, GeneticSearchParameter.AI_LAB_RECOMBINATION, };
+		String[] names = {
+				GeneticSearchParameter.SINGLE_CROSSOVER_RECOMBINATION,
+				GeneticSearchParameter.MULTI_CROSSOVER_RECOMBINATION,
+				GeneticSearchParameter.AI_LAB_RECOMBINATION,
+		};
 		return names;
 	}
 
 	public String[] getMutationStrategyNames()
 	{
-		String[] names = { GeneticSearchParameter.NO_MUTATION, GeneticSearchParameter.RANDOM_MUTATION };
+		String[] names = {GeneticSearchParameter.NO_MUTATION, GeneticSearchParameter.RANDOM_MUTATION};
 		return names;
 	}
 

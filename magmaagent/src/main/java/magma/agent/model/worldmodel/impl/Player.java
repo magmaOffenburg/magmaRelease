@@ -164,18 +164,21 @@ public class Player extends MovableObject implements IPlayer
 	}
 
 	@Override
-	public boolean equals(Object o) {
-		if (this == o) return true;
-		if (!(o instanceof Player)) return false;
-		if (!super.equals(o)) return false;
+	public boolean equals(Object o)
+	{
+		if (this == o)
+			return true;
+		if (!(o instanceof Player))
+			return false;
+		if (!super.equals(o))
+			return false;
 		Player player = (Player) o;
-		return id == player.id &&
-				ownTeam == player.ownTeam &&
-				Objects.equals(teamname, player.teamname);
+		return id == player.id && ownTeam == player.ownTeam && Objects.equals(teamname, player.teamname);
 	}
 
 	@Override
-	public int hashCode() {
+	public int hashCode()
+	{
 		return Objects.hash(super.hashCode(), id, teamname, ownTeam);
 	}
 

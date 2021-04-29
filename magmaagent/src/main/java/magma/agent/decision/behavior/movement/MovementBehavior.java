@@ -3,7 +3,6 @@
  * This software of HSOAutonomy is released under GPL-3 License (see gpl.txt).
  */
 
-
 package magma.agent.decision.behavior.movement;
 
 import magma.agent.decision.behavior.basic.RoboCupBehavior;

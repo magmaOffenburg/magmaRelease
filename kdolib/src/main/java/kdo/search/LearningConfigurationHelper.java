@@ -12,7 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-
 import kdo.search.impl.SearchParameters;
 import kdo.search.runs.averageOutStrategies.IAverageOutStrategy;
 import kdo.search.runs.averageOutStrategies.IDomainVisitor;

@@ -3,11 +3,7 @@
  * This software of HSOAutonomy is released under GPL-3 License (see gpl.txt).
  */
 
-
 package magma.agent.decision.behavior.complex.walk;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import hso.autonomy.agent.model.worldmodel.IMoveableObject;
 import hso.autonomy.util.geometry.Angle;
@@ -22,6 +18,8 @@ import magma.agent.decision.behavior.base.KickEstimator;
 import magma.agent.model.agentmodel.SupportFoot;
 import magma.agent.model.worldmodel.IPlayer;
 import magma.agent.model.worldmodel.IThisPlayer;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
  * @author kdorer
@@ -32,11 +30,10 @@ public class DribblingKickDecider extends KickDecider
 	private Angle intendedKickOffset;
 
 	public DribblingKickDecider(KickEstimator kickWalkEstimator, KickDistribution distribution,
-			Angle intendedKickOffset, SupportFoot kickingFoot,
-			Pose2D relativeRunToPose, Vector2D speedAtRunToPose, Angle relativeKickDirection, Angle kickDirection,
-			double maxKickDistance, double minKickDistance, float opponentMinDistance, float opponentMaxDistance,
-			float ballMaxSpeed, float ownMinSpeed, float ownMaxSpeed, int ballHitCycles, boolean unstable,
-			float priority)
+			Angle intendedKickOffset, SupportFoot kickingFoot, Pose2D relativeRunToPose, Vector2D speedAtRunToPose,
+			Angle relativeKickDirection, Angle kickDirection, double maxKickDistance, double minKickDistance,
+			float opponentMinDistance, float opponentMaxDistance, float ballMaxSpeed, float ownMinSpeed,
+			float ownMaxSpeed, int ballHitCycles, boolean unstable, float priority)
 	{
 		super(kickWalkEstimator, distribution, kickingFoot, relativeRunToPose, speedAtRunToPose, relativeKickDirection,
 				kickDirection, maxKickDistance, minKickDistance, opponentMinDistance, opponentMaxDistance, ballMaxSpeed,

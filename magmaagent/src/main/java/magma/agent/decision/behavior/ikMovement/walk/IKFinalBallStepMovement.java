@@ -5,8 +5,6 @@
 
 package magma.agent.decision.behavior.ikMovement.walk;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import hso.autonomy.util.geometry.Angle;
 import hso.autonomy.util.geometry.Pose2D;
 import hso.autonomy.util.geometry.Pose3D;
@@ -15,6 +13,7 @@ import magma.agent.IHumanoidConstants;
 import magma.agent.model.agentmodel.SupportFoot;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
 import magma.agent.model.worldmodel.IThisPlayer;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class IKFinalBallStepMovement extends IKCoMShiftingStepMovement
 {

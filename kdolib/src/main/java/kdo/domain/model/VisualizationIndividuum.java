@@ -7,7 +7,6 @@ package kdo.domain.model;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
-
 import kdo.domain.IIndividuum;
 import kdo.domain.IOperator;
 import kdo.domain.IOptimizationState;

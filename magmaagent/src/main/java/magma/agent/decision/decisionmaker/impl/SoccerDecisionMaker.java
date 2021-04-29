@@ -5,18 +5,15 @@
 
 package magma.agent.decision.decisionmaker.impl;
 
+import hso.autonomy.agent.decision.behavior.BehaviorMap;
+import hso.autonomy.agent.decision.behavior.IBehavior;
+import hso.autonomy.util.geometry.IPose3D;
+import hso.autonomy.util.geometry.Pose3D;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
-import hso.autonomy.agent.decision.behavior.BehaviorMap;
-import hso.autonomy.agent.decision.behavior.IBehavior;
-import hso.autonomy.util.geometry.IPose3D;
-import hso.autonomy.util.geometry.Pose3D;
 import magma.agent.decision.behavior.IBehaviorConstants;
 import magma.agent.model.agentmodel.IRoboCupAgentModel;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
@@ -24,6 +21,7 @@ import magma.agent.model.worldmodel.GameState;
 import magma.agent.model.worldmodel.IRoboCupWorldModel;
 import magma.agent.model.worldmodel.IThisPlayer;
 import magma.robots.nao.INaoConstants;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  * Simple decision maker for primitive field player
@@ -163,7 +161,7 @@ public class SoccerDecisionMaker extends RoboCupDecisionMakerBase
 			return IBehaviorConstants.CELEBRATE;
 		}
 
-		if(worldModel.getGameState() == GameState.OPPONENT_GOAL) {
+		if (worldModel.getGameState() == GameState.OPPONENT_GOAL) {
 			return IBehaviorConstants.GRIEVE;
 		}
 

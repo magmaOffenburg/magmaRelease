@@ -7,9 +7,6 @@ package magma.robots.nao.model.worldmodel;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.junit.jupiter.api.Test;
-
 import hso.autonomy.agent.model.agentmodel.impl.DefaultSensorFactory;
 import hso.autonomy.agent.model.worldmodel.IWorldModel;
 import hso.autonomy.util.file.SerializationUtil;
@@ -19,6 +16,8 @@ import magma.agent.model.worldmodel.IBall;
 import magma.agent.model.worldmodel.impl.Ball;
 import magma.agent.model.worldmodel.impl.RoboCupWorldModel;
 import magma.robots.nao.model.agentmeta.NaoAgentMetaModel;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests for Serialization of world model

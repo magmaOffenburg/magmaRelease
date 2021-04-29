@@ -7,7 +7,6 @@ package hso.autonomy.util.geometry;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class Line2D

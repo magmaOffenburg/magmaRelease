@@ -5,11 +5,6 @@
 
 package magma.agent.decision.behavior.complex.walk;
 
-import java.util.List;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-
 import hso.autonomy.agent.decision.behavior.BehaviorMap;
 import hso.autonomy.agent.decision.behavior.IBehavior;
 import hso.autonomy.agent.model.thoughtmodel.IThoughtModel;
@@ -20,6 +15,7 @@ import hso.autonomy.util.geometry.IPose2D;
 import hso.autonomy.util.geometry.Pose2D;
 import hso.autonomy.util.geometry.PoseSpeed2D;
 import hso.autonomy.util.properties.PropertyManager;
+import java.util.List;
 import magma.agent.decision.behavior.IBehaviorConstants;
 import magma.agent.decision.behavior.IWalk;
 import magma.agent.decision.behavior.IWalkEstimator;
@@ -30,6 +26,8 @@ import magma.agent.model.worldmodel.IPlayer;
 import magma.agent.model.worldmodel.IPositionManager;
 import magma.agent.model.worldmodel.IRoboCupWorldModel;
 import magma.agent.model.worldmodel.IThisPlayer;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
  * Implements a behavior which is able to walk/run to a specified target

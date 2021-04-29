@@ -5,12 +5,11 @@
 
 package hso.autonomy.agent.decision.behavior.basic;
 
-import java.io.Serializable;
-
 import hso.autonomy.agent.decision.behavior.IBehavior;
 import hso.autonomy.agent.model.agentmodel.IAgentModel;
 import hso.autonomy.agent.model.thoughtmodel.IThoughtModel;
 import hso.autonomy.agent.model.worldmodel.IWorldModel;
+import java.io.Serializable;
 
 /**
  * Abstract base class for all "simple" behaviors.

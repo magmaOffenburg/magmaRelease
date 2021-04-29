@@ -5,13 +5,12 @@
 
 package magma.agent.decision.behavior.ikMovement;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import hso.autonomy.agent.decision.behavior.BehaviorMap;
 import hso.autonomy.util.geometry.Angle;
 import hso.autonomy.util.geometry.Pose2D;
 import hso.autonomy.util.geometry.Pose3D;
+import java.util.ArrayList;
+import java.util.List;
 import kdo.util.parameter.ParameterMap;
 import magma.agent.IHumanoidConstants;
 import magma.agent.decision.behavior.IBehaviorConstants;

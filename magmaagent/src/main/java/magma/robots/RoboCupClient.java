@@ -5,15 +5,14 @@
 
 package magma.robots;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import hso.autonomy.agent.agentruntime.AgentRuntime;
 import hso.autonomy.util.commandline.Argument;
 import hso.autonomy.util.commandline.BooleanArgument;
 import hso.autonomy.util.commandline.HelpArgument;
 import hso.autonomy.util.commandline.IntegerArgument;
 import hso.autonomy.util.commandline.StringArgument;
+import java.util.ArrayList;
+import java.util.Collection;
 import magma.agent.IHumanoidConstants;
 import magma.agent.IMagmaConstants;
 import magma.agent.agentruntime.ComponentFactory;

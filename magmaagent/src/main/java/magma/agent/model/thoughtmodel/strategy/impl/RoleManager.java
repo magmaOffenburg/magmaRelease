@@ -5,15 +5,12 @@
 
 package magma.agent.model.thoughtmodel.strategy.impl;
 
+import hso.autonomy.agent.model.worldmodel.IWorldModel;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-
-import hso.autonomy.agent.model.worldmodel.IWorldModel;
 import magma.agent.model.thoughtmodel.strategy.IRole;
 import magma.agent.model.thoughtmodel.strategy.IRoleManager;
 import magma.agent.model.thoughtmodel.strategy.ITeamStrategy;
@@ -21,6 +18,7 @@ import magma.agent.model.thoughtmodel.strategy.impl.roles.DummyRole;
 import magma.agent.model.worldmodel.IPlayer;
 import magma.agent.model.worldmodel.IRoboCupWorldModel;
 import magma.agent.model.worldmodel.IThisPlayer;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
  * The RolePositionManager sets up a strategy for the whole team. Here several

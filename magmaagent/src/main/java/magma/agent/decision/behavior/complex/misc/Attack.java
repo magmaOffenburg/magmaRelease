@@ -5,14 +5,6 @@
 
 package magma.agent.decision.behavior.complex.misc;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-
 import hso.autonomy.agent.decision.behavior.BehaviorMap;
 import hso.autonomy.agent.decision.behavior.IBehavior;
 import hso.autonomy.agent.model.thoughtmodel.IThoughtModel;
@@ -22,6 +14,10 @@ import hso.autonomy.util.geometry.Geometry;
 import hso.autonomy.util.geometry.IPose2D;
 import hso.autonomy.util.geometry.Pose2D;
 import hso.autonomy.util.geometry.PoseSpeed2D;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 import magma.agent.decision.behavior.IBehaviorConstants;
 import magma.agent.decision.behavior.IKick;
 import magma.agent.decision.behavior.IKickDecider;
@@ -31,6 +27,8 @@ import magma.agent.decision.behavior.complex.walk.WalkToPosition;
 import magma.agent.model.worldmodel.IPassModeConstants;
 import magma.agent.model.worldmodel.IPlayer;
 import magma.agent.model.worldmodel.IThisPlayer;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
  * This Behavior is the basic behavior for the closest player to the ball. It

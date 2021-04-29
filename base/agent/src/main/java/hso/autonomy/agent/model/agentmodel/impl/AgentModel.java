@@ -5,10 +5,6 @@
 
 package hso.autonomy.agent.model.agentmodel.impl;
 
-import java.io.Serializable;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import hso.autonomy.agent.communication.action.IAction;
 import hso.autonomy.agent.communication.perception.IPerception;
 import hso.autonomy.agent.model.agentmeta.IAgentMetaModel;
@@ -26,6 +22,8 @@ import hso.autonomy.util.geometry.Pose3D;
 import hso.autonomy.util.observer.IObserver;
 import hso.autonomy.util.observer.IPublishSubscribe;
 import hso.autonomy.util.observer.Subject;
+import java.io.Serializable;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  * Implementation of the AgentModel. Used to represent all the information the agent has about itself.

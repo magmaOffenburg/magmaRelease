@@ -5,8 +5,6 @@
 
 package magma.agent.decision.behavior.complex.walk;
 
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-
 import hso.autonomy.agent.decision.behavior.BehaviorMap;
 import hso.autonomy.agent.decision.behavior.IBehavior;
 import hso.autonomy.util.geometry.Angle;
@@ -23,6 +21,7 @@ import magma.agent.decision.behavior.base.KickEstimator;
 import magma.agent.decision.behavior.complex.RoboCupSingleComplexBehavior;
 import magma.agent.model.agentmodel.SupportFoot;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class Dribbling extends RoboCupSingleComplexBehavior implements IKick
 {

@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-
 import kdo.domain.IIndividuum;
 import kdo.domain.IIndividuumView;
 import kdo.domain.IProblem;
@@ -433,7 +432,8 @@ public class GeneticController
 		protected void action()
 		{
 			try {
-				model.setIndividuumMutationProbability(((IGeneticInteractiveView) view).getIndividuumMutationProbability());
+				model.setIndividuumMutationProbability(
+						((IGeneticInteractiveView) view).getIndividuumMutationProbability());
 			} catch (Exception e) {
 				((IGeneticInteractiveView) view).updateView();
 			}
@@ -544,7 +544,8 @@ public class GeneticController
 		public void actionPerformed(ActionEvent e)
 		{
 			int currentIndividuumIndex = model.getCurrentIndividuumIndex();
-			if (!model.isRunning() && model.hasStarted() && currentIndividuumIndex < model.getNumberOfIndividuums() - 1) {
+			if (!model.isRunning() && model.hasStarted() &&
+					currentIndividuumIndex < model.getNumberOfIndividuums() - 1) {
 				model.setCurrentIndividuumIndex(currentIndividuumIndex + 1);
 			}
 		}

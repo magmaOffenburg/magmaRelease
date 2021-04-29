@@ -8,9 +8,7 @@ import java.awt.BorderLayout;
 import java.awt.Canvas;
 import java.awt.Color;
 import java.awt.Graphics;
-
 import javax.swing.JPanel;
-
 import kdo.domain.IIndividuum;
 import kdo.domain.IIndividuumView;
 import kdo.search.strategy.local.genetic.IPopulation;

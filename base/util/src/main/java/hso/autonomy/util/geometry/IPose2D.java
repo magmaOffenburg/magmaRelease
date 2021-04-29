@@ -6,7 +6,6 @@
 package hso.autonomy.util.geometry;
 
 import java.io.Serializable;
-
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 

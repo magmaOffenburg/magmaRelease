@@ -5,13 +5,10 @@
 
 package magma.robots.nao.decision.behavior.movement.fullsearch.kickwalk;
 
-import java.util.List;
-
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-
 import hso.autonomy.agent.decision.behavior.IBehavior;
 import hso.autonomy.util.geometry.Angle;
 import hso.autonomy.util.geometry.Pose2D;
+import java.util.List;
 import kdo.util.parameter.IParameterList;
 import kdo.util.parameter.ParameterMap;
 import magma.agent.decision.behavior.IBehaviorConstants;
@@ -21,6 +18,7 @@ import magma.agent.decision.behavior.base.KickWalkDecider;
 import magma.agent.model.agentmodel.SupportFoot;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
 import magma.robots.nao.INaoConstants;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
  * Kick ball while walking.

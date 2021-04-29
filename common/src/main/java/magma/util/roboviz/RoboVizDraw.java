@@ -16,6 +16,10 @@ import static magma.util.roboviz.RoboVizBufferUtil.newPolygon;
 import static magma.util.roboviz.RoboVizBufferUtil.newSelectAgent;
 import static magma.util.roboviz.RoboVizBufferUtil.newSphere;
 
+import hso.autonomy.util.geometry.Angle;
+import hso.autonomy.util.geometry.Area2D;
+import hso.autonomy.util.geometry.IPose2D;
+import hso.autonomy.util.geometry.Polygon;
 import java.awt.Color;
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -25,16 +29,10 @@ import java.net.SocketException;
 import java.net.UnknownHostException;
 import java.util.List;
 import java.util.function.Consumer;
-
+import magma.common.spark.PlaySide;
 import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
 import org.apache.commons.math3.geometry.euclidean.threed.RotationConvention;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
-import hso.autonomy.util.geometry.Angle;
-import hso.autonomy.util.geometry.Area2D;
-import hso.autonomy.util.geometry.IPose2D;
-import hso.autonomy.util.geometry.Polygon;
-import magma.common.spark.PlaySide;
 
 /**
  * Sends draw commands to RoboViz for visual debugging with shapes and text.

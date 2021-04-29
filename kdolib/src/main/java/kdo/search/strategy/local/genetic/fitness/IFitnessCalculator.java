@@ -3,7 +3,6 @@
  * This software of HSOAutonomy is released under GPL-3 License (see gpl.txt).
  */
 
-
 package kdo.search.strategy.local.genetic.fitness;
 
 import java.util.List;

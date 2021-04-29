@@ -11,7 +11,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.OptionalDouble;
 import java.util.function.ToDoubleFunction;
-
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 import org.apache.commons.math3.util.FastMath;

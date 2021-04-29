@@ -8,7 +8,6 @@ package magma.robots;
 import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.Map;
-
 import magma.agent.IMagmaConstants;
 import magma.agent.agentruntime.ComponentFactory;
 import magma.agent.model.agentmeta.impl.RoboCupAgentMetaModel;

@@ -12,8 +12,7 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
 
-public interface IProblemState
-{
+public interface IProblemState {
 	/**
 	 * Checks if this state is a goal state of this problem
 	 *
@@ -173,5 +172,4 @@ public interface IProblemState
 	 * @return the name of this state
 	 */
 	String getName();
-
 }

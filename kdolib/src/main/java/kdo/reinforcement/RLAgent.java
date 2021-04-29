@@ -11,7 +11,6 @@ package kdo.reinforcement;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import kdo.domain.IOperator;
 import kdo.domain.IProblemState;
 

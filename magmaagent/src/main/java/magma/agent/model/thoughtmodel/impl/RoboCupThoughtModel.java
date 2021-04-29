@@ -5,14 +5,6 @@
 
 package magma.agent.model.thoughtmodel.impl;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
-import java.util.Optional;
-import java.util.SortedSet;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import hso.autonomy.agent.communication.action.IAction;
 import hso.autonomy.agent.communication.perception.IPerception;
 import hso.autonomy.agent.model.agentmodel.IAgentModel;
@@ -24,6 +16,11 @@ import hso.autonomy.util.geometry.Angle;
 import hso.autonomy.util.geometry.Pose2D;
 import hso.autonomy.util.logging.PropertyMap;
 import hso.autonomy.util.misc.FuzzyCompare;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Optional;
+import java.util.SortedSet;
 import magma.agent.IHumanoidJoints;
 import magma.agent.model.agentmodel.IRoboCupAgentModel;
 import magma.agent.model.thoughtmodel.IKickPositionProfiler;
@@ -41,6 +38,7 @@ import magma.agent.model.worldmodel.IRoboCupWorldModel;
 import magma.agent.model.worldmodel.IRoboCupWorldModel.BallPassing;
 import magma.agent.model.worldmodel.IThisPlayer;
 import magma.util.roboviz.RoboVizDraw;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  * @author Stefan Glaser

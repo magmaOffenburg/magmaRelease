@@ -5,23 +5,21 @@
 
 package magma.agent.model.thoughtmodel;
 
-import java.util.List;
-import java.util.SortedSet;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import hso.autonomy.agent.model.agentmodel.IAgentModel;
 import hso.autonomy.agent.model.thoughtmodel.IThoughtModel;
 import hso.autonomy.agent.model.worldmodel.IVisibleObject;
 import hso.autonomy.util.geometry.Angle;
 import hso.autonomy.util.geometry.Pose2D;
 import hso.autonomy.util.logging.PropertyMap;
+import java.util.List;
+import java.util.SortedSet;
 import magma.agent.model.agentmodel.IRoboCupAgentModel;
 import magma.agent.model.thoughtmodel.strategy.IRole;
 import magma.agent.model.thoughtmodel.strategy.IRoleManager;
 import magma.agent.model.worldmodel.IPlayer;
 import magma.agent.model.worldmodel.IRoboCupWorldModel;
 import magma.util.roboviz.RoboVizDraw;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  * Represents all information related to thoughts of the agent.<br>

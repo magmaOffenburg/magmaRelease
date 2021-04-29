@@ -5,12 +5,9 @@
 
 package magma.agent.decision.behavior.base;
 
+import hso.autonomy.util.geometry.Geometry;
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
-import hso.autonomy.util.geometry.Geometry;
 import magma.agent.decision.behavior.IKick;
 import magma.agent.decision.behavior.IKickWalkDecider;
 import magma.agent.decision.behavior.IWalkEstimator;
@@ -18,6 +15,7 @@ import magma.agent.model.agentmodel.IRoboCupAgentModel;
 import magma.agent.model.agentmodel.SupportFoot;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
 import magma.agent.model.worldmodel.IThisPlayer;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  * Class to decide if a Kick while walking is desirable (getApplicability()) and currently performable

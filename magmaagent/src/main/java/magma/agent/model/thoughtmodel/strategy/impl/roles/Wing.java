@@ -5,12 +5,10 @@
 
 package magma.agent.model.thoughtmodel.strategy.impl.roles;
 
-import java.util.Optional;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import hso.autonomy.util.geometry.Pose2D;
+import java.util.Optional;
 import magma.agent.model.worldmodel.IRoboCupWorldModel;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  * @author Stephan Kammerer

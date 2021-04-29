@@ -5,9 +5,6 @@
 
 package magma.agent.decision.decisionmaker.impl.testing;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-
 import hso.autonomy.agent.decision.behavior.BehaviorMap;
 import hso.autonomy.util.geometry.Angle;
 import hso.autonomy.util.geometry.Geometry;
@@ -20,6 +17,8 @@ import magma.agent.decision.behavior.complex.walk.WalkToPosition;
 import magma.agent.decision.decisionmaker.impl.SoccerDecisionMaker;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
 import magma.agent.model.worldmodel.IBall;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
  * Decision maker used to trigger training behaviors. Feel free to change it for

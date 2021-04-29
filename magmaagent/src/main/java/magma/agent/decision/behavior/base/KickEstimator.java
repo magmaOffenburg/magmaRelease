@@ -5,15 +5,6 @@
 
 package magma.agent.decision.behavior.base;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.Supplier;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-
 import hso.autonomy.agent.model.worldmodel.InformationSource;
 import hso.autonomy.util.geometry.Angle;
 import hso.autonomy.util.geometry.Geometry;
@@ -21,6 +12,11 @@ import hso.autonomy.util.geometry.IPose2D;
 import hso.autonomy.util.geometry.Pose2D;
 import hso.autonomy.util.geometry.PoseSpeed2D;
 import hso.autonomy.util.geometry.VectorUtils;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.function.Supplier;
 import magma.agent.decision.behavior.IKick;
 import magma.agent.decision.behavior.IKickDecider;
 import magma.agent.decision.behavior.IWalkEstimator;
@@ -30,6 +26,8 @@ import magma.agent.model.worldmodel.IBall;
 import magma.agent.model.worldmodel.IPassModeConstants;
 import magma.agent.model.worldmodel.IPlayer;
 import magma.agent.model.worldmodel.IRoboCupWorldModel;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
  * @author kdorer

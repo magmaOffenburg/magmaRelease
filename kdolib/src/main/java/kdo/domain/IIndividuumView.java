@@ -5,7 +5,6 @@
 package kdo.domain;
 
 import javax.swing.JPanel;
-
 import kdo.search.strategy.local.genetic.IPopulation;
 
 /**

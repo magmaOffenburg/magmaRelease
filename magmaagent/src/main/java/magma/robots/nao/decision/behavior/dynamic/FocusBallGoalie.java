@@ -5,11 +5,10 @@
 
 package magma.robots.nao.decision.behavior.dynamic;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import magma.agent.decision.behavior.IBehaviorConstants;
 import magma.agent.decision.behavior.basic.RoboCupBehavior;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class FocusBallGoalie extends RoboCupBehavior
 {

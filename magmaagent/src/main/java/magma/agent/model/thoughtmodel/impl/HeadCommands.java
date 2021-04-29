@@ -13,7 +13,6 @@ import magma.agent.decision.behavior.IBehaviorConstants;
  * @author Stefan Glaser
  */
 public enum HeadCommands {
-
 	FOCUS_BALL(IBehaviorConstants.FOCUS_BALL, 1),
 
 	LOOK_AROUND(IBehaviorConstants.TURN_HEAD, 2);

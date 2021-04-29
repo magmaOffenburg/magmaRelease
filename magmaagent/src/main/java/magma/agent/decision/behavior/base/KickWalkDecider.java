@@ -3,10 +3,7 @@
  * This software of HSOAutonomy is released under GPL-3 License (see gpl.txt).
  */
 
-
 package magma.agent.decision.behavior.base;
-
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 import hso.autonomy.util.geometry.Angle;
 import hso.autonomy.util.geometry.Area2D;
@@ -14,6 +11,7 @@ import hso.autonomy.util.geometry.Pose2D;
 import magma.agent.decision.behavior.IKickWalkDecider;
 import magma.agent.model.agentmodel.SupportFoot;
 import magma.agent.model.worldmodel.GameState;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 /**
  * @author kdorer

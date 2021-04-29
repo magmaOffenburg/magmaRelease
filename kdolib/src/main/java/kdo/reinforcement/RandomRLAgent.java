@@ -10,7 +10,6 @@
 package kdo.reinforcement;
 
 import java.util.List;
-
 import kdo.domain.IOperator;
 import kdo.domain.IProblemState;
 import kdo.util.IRandomSource;

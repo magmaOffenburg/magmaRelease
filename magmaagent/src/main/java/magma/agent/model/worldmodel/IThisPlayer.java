@@ -5,16 +5,14 @@
 
 package magma.agent.model.worldmodel;
 
-import java.util.Map;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import hso.autonomy.util.geometry.Angle;
 import hso.autonomy.util.geometry.Area2D;
 import hso.autonomy.util.geometry.IPose2D;
 import hso.autonomy.util.geometry.Pose2D;
 import hso.autonomy.util.geometry.Pose3D;
+import java.util.Map;
+import org.apache.commons.math3.geometry.euclidean.threed.Rotation;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  * Interface to access visible player information

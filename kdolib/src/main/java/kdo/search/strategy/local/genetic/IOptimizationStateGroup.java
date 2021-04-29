@@ -6,7 +6,6 @@
 package kdo.search.strategy.local.genetic;
 
 import java.util.List;
-
 import kdo.domain.IOptimizationState;
 
 /**

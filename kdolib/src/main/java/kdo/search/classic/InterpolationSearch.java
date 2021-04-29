@@ -5,7 +5,6 @@
 package kdo.search.classic;
 
 import java.util.List;
-
 import kdo.search.representation.ArithmeticComparable;
 import kdo.search.strategy.base.StrategyBase;
 

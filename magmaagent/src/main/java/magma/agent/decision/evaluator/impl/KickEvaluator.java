@@ -5,9 +5,6 @@
 
 package magma.agent.decision.evaluator.impl;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
-
 import hso.autonomy.agent.decision.behavior.IBehavior;
 import hso.autonomy.agent.decision.decisionmaker.IDecisionMaker;
 import hso.autonomy.agent.model.worldmodel.IMoveableObject;
@@ -17,6 +14,8 @@ import magma.agent.decision.behavior.IKick;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
 import magma.agent.model.worldmodel.IRoboCupWorldModel;
 import magma.agent.model.worldmodel.IThisPlayer;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
+import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
 public class KickEvaluator extends DecisionEvaluator
 {

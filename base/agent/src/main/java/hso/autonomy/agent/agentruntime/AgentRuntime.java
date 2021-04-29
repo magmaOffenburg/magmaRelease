@@ -5,8 +5,6 @@
 
 package hso.autonomy.agent.agentruntime;
 
-import java.io.Serializable;
-
 import hso.autonomy.agent.communication.action.IAction;
 import hso.autonomy.agent.communication.channel.IChannelManager;
 import hso.autonomy.agent.communication.channel.IChannelManager.ChannelManagerStatus;
@@ -20,6 +18,7 @@ import hso.autonomy.agent.model.agentmodel.IAgentModel;
 import hso.autonomy.agent.model.thoughtmodel.IThoughtModel;
 import hso.autonomy.agent.model.worldmodel.IWorldModel;
 import hso.autonomy.util.observer.IObserver;
+import java.io.Serializable;
 
 /**
  * The AgentRuntime is the core orchestrating component in the magma

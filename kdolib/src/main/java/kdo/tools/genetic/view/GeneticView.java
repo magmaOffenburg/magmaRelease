@@ -16,14 +16,12 @@ import java.awt.Container;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusListener;
-
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.TitledBorder;
-
 import kdo.domain.IIndividuumView;
 import kdo.search.strategy.local.genetic.impl.GeneticSearchParameter;
 import kdo.tools.genetic.model.GeneticOptimization;

@@ -121,8 +121,8 @@ public class GeneticSearchParameter extends OptimizationSearchParameter
 		}
 
 		if (parentsPerIndividuum > this.getPopulationSize()) {
-			throw new IllegalArgumentException("Number of parents may be at most size of population, but is: "
-					+ parentsPerIndividuum + " population size: " + this.getPopulationSize());
+			throw new IllegalArgumentException("Number of parents may be at most size of population, but is: " +
+											   parentsPerIndividuum + " population size: " + this.getPopulationSize());
 		}
 
 		this.parentsPerIndividuum = parentsPerIndividuum;
@@ -260,8 +260,8 @@ public class GeneticSearchParameter extends OptimizationSearchParameter
 	{
 		IMutation strategy = null;
 		if (mutationStrategy.equals(GeneticSearchParameter.RANDOM_MUTATION)) {
-			strategy = new RandomMutation(getIndividuumMutationProbability(), getGeneMutationProbability(),
-					getRandomSource());
+			strategy = new RandomMutation(
+					getIndividuumMutationProbability(), getGeneMutationProbability(), getRandomSource());
 
 		} else if (mutationStrategy.equals(GeneticSearchParameter.NO_MUTATION)) {
 			strategy = new NoMutation();
@@ -290,10 +290,11 @@ public class GeneticSearchParameter extends OptimizationSearchParameter
 	@Override
 	public String toString()
 	{
-		return super.toString() + "GeneticSearchParameter [oldToNew=" + oldToNew + ", parentsPerIndividuum="
-				+ parentsPerIndividuum + ", individuumMutationProbability=" + individuumMutationProbability
-				+ ", geneMutationProbability=" + geneMutationProbability + ", eliteSelectionRatio=" + eliteSelectionRatio
-				+ ", selectionStrategy=" + selectionStrategy + ", mutationStrategy=" + mutationStrategy
-				+ ", reproductionStrategy=" + reproductionStrategy + "]";
+		return super.toString() + "GeneticSearchParameter [oldToNew=" + oldToNew +
+				", parentsPerIndividuum=" + parentsPerIndividuum +
+				", individuumMutationProbability=" + individuumMutationProbability +
+				", geneMutationProbability=" + geneMutationProbability +
+				", eliteSelectionRatio=" + eliteSelectionRatio + ", selectionStrategy=" + selectionStrategy +
+				", mutationStrategy=" + mutationStrategy + ", reproductionStrategy=" + reproductionStrategy + "]";
 	}
 }

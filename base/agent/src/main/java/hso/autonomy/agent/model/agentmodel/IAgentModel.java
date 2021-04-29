@@ -5,13 +5,12 @@
 
 package hso.autonomy.agent.model.agentmodel;
 
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
 import hso.autonomy.agent.communication.action.IAction;
 import hso.autonomy.agent.communication.perception.IPerception;
 import hso.autonomy.util.geometry.IPose3D;
 import hso.autonomy.util.geometry.Pose3D;
 import hso.autonomy.util.observer.IObserver;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 /**
  * Provides read only access to the agent model including universal joints,
@@ -184,7 +183,7 @@ public interface IAgentModel {
 	IPose3D getCameraOffset();
 
 	void setCameraOffset(Pose3D pose3d);
-	
+
 	/**
 	 * Returns the current body-local pose of the camera (camera-body-part-pose
 	 * combined with camera-offset)

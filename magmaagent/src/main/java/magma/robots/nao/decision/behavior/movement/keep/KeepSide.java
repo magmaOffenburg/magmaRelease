@@ -3,7 +3,6 @@
  * This software of HSOAutonomy is released under GPL-3 License (see gpl.txt).
  */
 
-
 package magma.robots.nao.decision.behavior.movement.keep;
 
 import magma.agent.decision.behavior.IBehaviorConstants;

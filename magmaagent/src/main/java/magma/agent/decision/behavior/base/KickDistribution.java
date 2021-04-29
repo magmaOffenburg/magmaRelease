@@ -5,11 +5,9 @@
 
 package magma.agent.decision.behavior.base;
 
-import java.io.Serializable;
-
-import org.apache.commons.math3.distribution.NormalDistribution;
-
 import hso.autonomy.util.geometry.Angle;
+import java.io.Serializable;
+import org.apache.commons.math3.distribution.NormalDistribution;
 
 /**
  * Probability distribution of kick distance and angle. Usually measured over

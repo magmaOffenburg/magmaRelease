@@ -5,16 +5,14 @@
 
 package magma.agent.model.thoughtmodel.impl;
 
+import hso.autonomy.util.geometry.Angle;
 import java.util.SortedSet;
 import java.util.TreeSet;
-
-import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
-
-import hso.autonomy.util.geometry.Angle;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
 import magma.agent.model.thoughtmodel.KickPositionEstimation;
 import magma.agent.model.worldmodel.IBall;
 import magma.agent.model.worldmodel.IPlayer;
+import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 public class PenaltyKickPositionProfiler extends KickPositionProfilerBase
 {

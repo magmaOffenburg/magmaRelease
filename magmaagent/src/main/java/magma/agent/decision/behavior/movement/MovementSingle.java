@@ -3,13 +3,11 @@
  * This software of HSOAutonomy is released under GPL-3 License (see gpl.txt).
  */
 
-
 package magma.agent.decision.behavior.movement;
-
-import java.io.Serializable;
 
 import hso.autonomy.agent.model.agentmodel.IAgentModel;
 import hso.autonomy.agent.model.agentmodel.IHingeJoint;
+import java.io.Serializable;
 import magma.agent.IHumanoidJoints;
 
 /**

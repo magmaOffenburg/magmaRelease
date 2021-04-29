@@ -14,7 +14,6 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import kdo.domain.IOperator;
 import kdo.domain.IProblemState;
 
@@ -221,8 +220,9 @@ public class ActiveRLAgent extends RLAgent
 
 			float expectedUtility = 0.0f;
 			for (IProblemState destinationState : successorStates) {
-				expectedUtility += getProbability(action, destinationState)
-						* utilityFunction(destinationState.getUtility(), destinationState.getExplorationCount());
+				expectedUtility +=
+						getProbability(action, destinationState) *
+						utilityFunction(destinationState.getUtility(), destinationState.getExplorationCount());
 			}
 			return expectedUtility;
 		}

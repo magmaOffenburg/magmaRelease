@@ -9,8 +9,7 @@ package kdo.domain;
  * @author cfueller
  *
  */
-public interface IOptimizationState extends IProblemState, Comparable<IOptimizationState>
-{
+public interface IOptimizationState extends IProblemState, Comparable<IOptimizationState> {
 	/**
 	 * @param other the state to compare against
 	 * @return the relative number of values that differ for this and the passed
