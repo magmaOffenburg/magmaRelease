@@ -76,6 +76,7 @@ public class RoboCupClient
 		StringArgument mixedTeamIPArgument = new StringArgument("mixedTeamIP", "localhost", "Teammate IP");
 		IntegerArgument mixedTeamInPort = new IntegerArgument("mtInPort", 54321, 0, "mixed-team listening port");
 		IntegerArgument mixedTeamOutPort = new IntegerArgument("mtOutPort", 12345, 0, "mixed-team sending port");
+		BooleanArgument thinClientArgument = new BooleanArgument("thinClient", "enables the thin client");
 
 		new HelpArgument(teamNameArgument, teamIDArgument, playerIDArgument, serverArgument, portArgument,
 				serverVersionArgument, decisionMakerArgument, factoryArgument, roboVizDebugArgument,
@@ -101,12 +102,13 @@ public class RoboCupClient
 		String mixedTeamIP = mixedTeamIPArgument.parse(args);
 		int mtInPort = mixedTeamInPort.parse(args);
 		int mtOutPort = mixedTeamOutPort.parse(args);
+		boolean thinClient = thinClientArgument.parse(args);
 		Argument.endParse(args);
 
 		RoboVizParameters roboVizParams = new RoboVizParameters(roboVizDebug, roboVizServer, roboVizPort, playerID);
-		ComponentFactory componentFactory = RobotConfigurationHelper.getComponentFactory(factory, playerID);
+		ComponentFactory componentFactory = RobotConfigurationHelper.getComponentFactory(factory, playerID, thinClient);
 
 		return new PlayerParameters(teamName, teamID, playerID, server, port, serverVersion, componentFactory,
-				decisionMakerName, roboVizParams, reportStats);
+				decisionMakerName, roboVizParams, reportStats, thinClient);
 	}
 }

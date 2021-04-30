@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 import magma.agent.IMagmaConstants;
 import magma.agent.agentruntime.ComponentFactory;
+import magma.agent.agentruntime.ThinClientComponentFactory;
 import magma.agent.model.agentmeta.impl.RoboCupAgentMetaModel;
 import magma.robots.nao.general.agentruntime.NaoComponentFactory;
 import magma.robots.nao.general.agentruntime.PenaltyComponentFactory;
@@ -52,16 +53,23 @@ public class RobotConfigurationHelper
 
 	public static ComponentFactory getComponentFactory(String robotModel)
 	{
-		return getComponentFactory(robotModel, -1);
+		return getComponentFactory(robotModel, -1, false);
 	}
 
-	public static ComponentFactory getComponentFactory(String robotModel, int playerNumber)
+	public static ComponentFactory getComponentFactory(String robotModel, int playerNumber, boolean thinClient)
 	{
+		ComponentFactory factory;
 		if (robotModel == null || robotModel.equals(IMagmaConstants.DEFAULT_FACTORY)) {
 			return getComponentFactory(playerNumber);
+		} else {
+			factory = ROBOT_MODELS.get(robotModel).create();
 		}
 
-		return ROBOT_MODELS.get(robotModel).create();
+		if (thinClient) {
+			factory = new ThinClientComponentFactory(factory);
+		}
+
+		return factory;
 	}
 
 	private static ComponentFactory getComponentFactory(int playerNumber)

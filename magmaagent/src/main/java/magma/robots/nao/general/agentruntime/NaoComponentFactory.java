@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import kdo.util.parameter.ParameterMap;
 import magma.agent.IMagmaConstants;
+import magma.agent.UglyConstants;
 import magma.agent.agentruntime.ComponentFactory;
 import magma.agent.communication.channel.IRoboCupChannel;
 import magma.agent.communication.channel.impl.ChannelParameters;
@@ -30,6 +31,7 @@ import magma.agent.decision.behavior.basic.SendPassCommand;
 import magma.agent.decision.behavior.complex.goalie.GoaliePositioning;
 import magma.agent.decision.behavior.complex.kick.StabilizedKick;
 import magma.agent.decision.behavior.complex.misc.Attack;
+import magma.agent.decision.behavior.complex.misc.AttackThin;
 import magma.agent.decision.behavior.complex.misc.KickChallengeAttack;
 import magma.agent.decision.behavior.complex.misc.PassingChallengeAttack;
 import magma.agent.decision.behavior.complex.path.WalkPath;
@@ -267,7 +269,11 @@ public class NaoComponentFactory extends ComponentFactory
 		createStabilizedKick.accept(KICK_8M);
 		createStabilizedKick.accept(KICK_11M);
 		List<String> defaultAvailableKicks = createDefaultAvailableKicks(behaviors);
-		behaviors.put(new Attack(thoughtModel, behaviors, defaultAvailableKicks));
+		if (UglyConstants.thinClient) {
+			behaviors.put(new AttackThin(thoughtModel, behaviors, defaultAvailableKicks));
+		} else {
+			behaviors.put(new Attack(thoughtModel, behaviors, defaultAvailableKicks));
+		}
 
 		behaviors.put(new KickChallengeAttack(thoughtModel, behaviors, defaultAvailableKicks));
 

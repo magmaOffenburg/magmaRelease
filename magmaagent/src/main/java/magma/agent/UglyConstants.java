@@ -14,4 +14,5 @@ public abstract class UglyConstants
 {
 	// put here constants that mark quick hack parts of code that need to be
 	// cleaned up after a competition
+	public static boolean thinClient;
 }

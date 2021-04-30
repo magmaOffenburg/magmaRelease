@@ -6,6 +6,7 @@
 package magma.agent.agentruntime;
 
 import magma.agent.IMagmaConstants;
+import magma.agent.UglyConstants;
 import magma.agent.communication.channel.impl.ChannelParameters;
 import magma.common.spark.IConnectionConstants;
 import magma.util.roboviz.RoboVizParameters;
@@ -31,6 +32,8 @@ public class PlayerParameters
 
 	private final boolean reportStats;
 
+	private final boolean thinClient;
+
 	/**
 	 * Instantiates and initializes a new PlayerParameters object
 	 *
@@ -43,44 +46,47 @@ public class PlayerParameters
 	 * @param decisionMakerName Name of the decision maker
 	 */
 	public PlayerParameters(String teamname, byte teamID, int playerNumber, String host, int port, int serverVersion,
-			ComponentFactory factory, String decisionMakerName, boolean reportStats)
+			ComponentFactory factory, String decisionMakerName, boolean reportStats, boolean thinClient)
 	{
 		this(new ChannelParameters(teamname, teamID, playerNumber, host, port), serverVersion, factory,
-				decisionMakerName, reportStats);
+				decisionMakerName, reportStats, thinClient);
 	}
 
 	public PlayerParameters(String teamname, String teamStrategyName, byte teamID, int playerNumber, String host,
 			int port, int serverVersion, ComponentFactory factory, String decisionMakerName,
-			RoboVizParameters roboVizParams, boolean reportStats)
+			RoboVizParameters roboVizParams, boolean reportStats, boolean thinClient)
 	{
 		this(new ChannelParameters(teamname, teamID, playerNumber, host, port), serverVersion, factory,
-				decisionMakerName, reportStats);
+				decisionMakerName, reportStats, thinClient);
 		this.teamStrategyName = teamStrategyName;
 		this.roboVizParams = roboVizParams;
 	}
 
 	public PlayerParameters(String teamname, byte teamID, int playerNumber, String host, int port, int serverVersion,
-			ComponentFactory factory, String decisionMakerName, RoboVizParameters roboVizParams, boolean reportStats)
+			ComponentFactory factory, String decisionMakerName, RoboVizParameters roboVizParams, boolean reportStats,
+			boolean thinClient)
 	{
 		this(teamname, null, teamID, playerNumber, host, port, serverVersion, factory, decisionMakerName, roboVizParams,
-				reportStats);
+				reportStats, thinClient);
 	}
 
 	public PlayerParameters(ChannelParameters channelParams, int serverVersion, ComponentFactory factory,
-			String decisionMakerName, boolean reportStats)
+			String decisionMakerName, boolean reportStats, boolean thinClient)
 	{
 		this.channelParams = channelParams;
 		this.serverVersion = serverVersion;
 		this.factory = factory;
 		this.decisionMakerName = decisionMakerName;
 		this.reportStats = reportStats;
+		this.thinClient = thinClient;
+		UglyConstants.thinClient = thinClient;
 	}
 
 	public PlayerParameters(ComponentFactory factory)
 	{
 		this(IMagmaConstants.DEFAULT_TEAMNAME, IMagmaConstants.DEFAULT_TEAMID, 8, IConnectionConstants.SERVER_IP,
 				IConnectionConstants.AGENT_PORT, IMagmaConstants.DEFAULT_SERVER_VERSION, factory,
-				IMagmaConstants.DEFAULT_DECISION_MAKER, false);
+				IMagmaConstants.DEFAULT_DECISION_MAKER, false, false);
 	}
 
 	/**
@@ -179,5 +185,10 @@ public class PlayerParameters
 	public String getTeamStrategyName()
 	{
 		return teamStrategyName;
+	}
+
+	public boolean isThinClient()
+	{
+		return thinClient;
 	}
 }

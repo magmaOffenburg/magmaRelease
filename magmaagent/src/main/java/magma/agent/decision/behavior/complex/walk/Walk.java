@@ -23,6 +23,8 @@ import magma.agent.decision.behavior.IBehaviorConstants;
 import magma.agent.decision.behavior.IWalk;
 import magma.agent.decision.behavior.complex.RoboCupSingleComplexBehavior;
 import magma.agent.decision.behavior.ikMovement.walk.IKDynamicWalkMovement;
+import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
+import magma.agent.model.thoughtmodel.IRoboCupThoughtModelThin;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 import org.apache.commons.math3.geometry.euclidean.twod.Vector2D;
 
@@ -139,6 +141,11 @@ public class Walk extends RoboCupSingleComplexBehavior implements IWalk
 		// translate to percent
 		realSpeed = realSpeed.scalarMultiply(100);
 
+		IRoboCupThoughtModel thoughtModel = getThoughtModel();
+		if (thoughtModel instanceof IRoboCupThoughtModelThin) {
+			((IRoboCupThoughtModelThin) thoughtModel)
+					.setDash((float) realSpeed.getX(), (float) realSpeed.getY(), (float) desiredTurn);
+		}
 		walk(realSpeed.getX(), realSpeed.getY(), Angle.deg(desiredTurn), paramSetName);
 	}
 

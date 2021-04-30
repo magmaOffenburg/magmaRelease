@@ -10,6 +10,7 @@ import hso.autonomy.util.geometry.Geometry;
 import hso.autonomy.util.geometry.VectorUtils;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import magma.agent.UglyConstants;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
 import magma.agent.model.thoughtmodel.KickPositionEstimation;
 import magma.agent.model.worldmodel.GameState;
@@ -36,10 +37,13 @@ public class KickPositionProfilerGoal extends KickPositionProfiler
 		SortedSet<KickPositionEstimation> result = new TreeSet<>();
 		Vector3D otherGoalPosition = worldModel.getOtherGoalPosition();
 		Vector3D ballPosition = worldModel.getBall().getPosition();
+		Vector3D position =
+				otherGoalPosition.add(otherGoalPosition.subtract(ballPosition).normalize().scalarMultiply(5));
 		Angle ballGoalAngle = VectorUtils.getDirectionTo(ballPosition, otherGoalPosition);
 		if (ballGoalAngle.degrees() > 80 || ballGoalAngle.degrees() < -80) {
 			// we would likely miss the goal if we try to score from here
-			result.add(new KickPositionEstimation(otherGoalPosition.add(new Vector3D(-2, 0, 0)), 1));
+			result.add(new KickPositionEstimation(
+					UglyConstants.thinClient ? position : otherGoalPosition.add(new Vector3D(-2, 0, 0)), 1));
 		} else if (worldModel.getGameState() == GameState.OWN_KICK_OFF) {
 			// position at kickoff
 			result.add(new KickPositionEstimation(thoughtModel.getKickOffTargetPosition(), 1));
@@ -50,7 +54,7 @@ public class KickPositionProfilerGoal extends KickPositionProfiler
 				// we focus on goal kicks if close to the goal
 				Vector3D goalTargetPosition =
 						Geometry.getPointOnLineAbsoluteEnd(otherGoalPosition, ballPosition, ballGoalDistance + 3);
-				result.add(new KickPositionEstimation(goalTargetPosition, 1));
+				result.add(new KickPositionEstimation(UglyConstants.thinClient ? position : goalTargetPosition, 1));
 				goalKick = true;
 			} else {
 				return super.doEstimate();
