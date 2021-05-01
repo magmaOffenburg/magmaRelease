@@ -4,6 +4,9 @@ This software is released under the GPL. See file [gpl.txt](gpl.txt)
  for more information.
 If you use this software please acknowledge it appropriately.
 
+A tutorial is available on YouTube describing the basics of working with the magmaOffenburg source code:
+https://www.youtube.com/watch?v=_FNaMjJlNfI
+
 ## Setup Instructions
 
 Clone the repository into a workspace folder of your choice.
