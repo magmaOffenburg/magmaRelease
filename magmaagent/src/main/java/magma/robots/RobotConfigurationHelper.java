@@ -60,7 +60,7 @@ public class RobotConfigurationHelper
 	{
 		ComponentFactory factory;
 		if (robotModel == null || robotModel.equals(IMagmaConstants.DEFAULT_FACTORY)) {
-			return getComponentFactory(playerNumber);
+			factory = getComponentFactory(playerNumber);
 		} else {
 			factory = ROBOT_MODELS.get(robotModel).create();
 		}
