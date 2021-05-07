@@ -25,6 +25,7 @@ import hso.autonomy.util.file.FileUtil;
 import java.io.IOException;
 import java.net.URISyntaxException;
 import kdo.util.parameter.ParameterMap;
+import magma.agent.UglyConstants;
 import magma.agent.communication.action.IRoboCupAction;
 import magma.agent.communication.action.impl.RoboCupAction;
 import magma.agent.communication.channel.impl.ChannelParameters;
@@ -47,6 +48,7 @@ import magma.agent.model.thoughtmodel.IKickPositionProfiler;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
 import magma.agent.model.thoughtmodel.impl.KickPositionProfilerGoal;
 import magma.agent.model.thoughtmodel.impl.RoboCupThoughtModel;
+import magma.agent.model.thoughtmodel.impl.RoboCupThoughtModelThin;
 import magma.agent.model.thoughtmodel.strategy.IRoleManager;
 import magma.agent.model.thoughtmodel.strategy.impl.RoleManager;
 import magma.agent.model.thoughtmodel.strategy.impl.strategies.StrategyConfigurationHelper;
@@ -119,7 +121,11 @@ public abstract class ComponentFactory implements IBehaviorConstants
 	public IRoboCupThoughtModel createThoughtModel(
 			IAgentModel agentModel, IRoboCupWorldModel worldModel, RoboVizDraw roboVizDraw)
 	{
-		return new RoboCupThoughtModel(agentModel, worldModel, roboVizDraw);
+		if (UglyConstants.thinClient) {
+			return new RoboCupThoughtModelThin(agentModel, worldModel, roboVizDraw);
+		} else {
+			return new RoboCupThoughtModel(agentModel, worldModel, roboVizDraw);
+		}
 	}
 
 	public final IRoleManager createRoleManager(IRoboCupThoughtModel thoughtModel, IWorldModel worldModel)

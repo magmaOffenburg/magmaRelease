@@ -47,12 +47,23 @@ public class ServerMessageEncoder implements IMessageEncoder
 				}
 			} else if (effector instanceof IPassEffector) {
 				builder.append("(pass)");
+			} else if (effector instanceof ProxyEffector) {
+				encodeProxy(builder, (ProxyEffector) effector);
 			}
 		}
 
 		builder.append("(syn)");
 
 		return builder.toString().getBytes();
+	}
+
+	public void encodeProxy(StringBuilder builder, ProxyEffector proxyEffector)
+	{
+		builder.append("(proxy ").append(proxyEffector.getName());
+		for (float value : proxyEffector.getValues()) {
+			builder.append(" ").append(truncate(value));
+		}
+		builder.append(")");
 	}
 
 	/**

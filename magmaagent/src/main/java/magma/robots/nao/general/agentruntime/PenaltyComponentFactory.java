@@ -11,6 +11,7 @@ import hso.autonomy.agent.model.worldmodel.IWorldModel;
 import java.util.ArrayList;
 import java.util.List;
 import kdo.util.parameter.ParameterMap;
+import magma.agent.UglyConstants;
 import magma.agent.decision.behavior.IBehaviorConstants;
 import magma.agent.decision.behavior.IWalkEstimator;
 import magma.agent.decision.behavior.complex.kick.StabilizedKick;
@@ -21,6 +22,7 @@ import magma.agent.model.thoughtmodel.IKickPositionProfiler;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
 import magma.agent.model.thoughtmodel.impl.PenaltyKickPositionProfiler;
 import magma.agent.model.thoughtmodel.impl.RoboCupThoughtModel;
+import magma.agent.model.thoughtmodel.impl.RoboCupThoughtModelThin;
 import magma.agent.model.thoughtmodel.strategy.IRoleManager;
 import magma.agent.model.thoughtmodel.strategy.impl.RoleManager;
 import magma.agent.model.thoughtmodel.strategy.impl.strategies.PenaltyKickerStrategy;
@@ -61,12 +63,21 @@ public class PenaltyComponentFactory extends NaoComponentFactory
 	public IRoboCupThoughtModel createThoughtModel(
 			IAgentModel agentModel, IRoboCupWorldModel worldModel, RoboVizDraw roboVizDraw)
 	{
-		return new RoboCupThoughtModel(agentModel, worldModel, roboVizDraw) {
-			@Override
-			protected void updateTeamStrategy()
-			{
-			}
-		};
+		if (UglyConstants.thinClient) {
+			return new RoboCupThoughtModelThin(agentModel, worldModel, roboVizDraw) {
+				@Override
+				protected void updateTeamStrategy()
+				{
+				}
+			};
+		} else {
+			return new RoboCupThoughtModel(agentModel, worldModel, roboVizDraw) {
+				@Override
+				protected void updateTeamStrategy()
+				{
+				}
+			};
+		}
 	}
 
 	@Override
@@ -99,7 +110,5 @@ public class PenaltyComponentFactory extends NaoComponentFactory
 				KICK_11M.FULL.LEFT, thoughtModel, params, behaviors, KICK_11M.STABILIZE.LEFT, KICK_11M.KICK.LEFT));
 		behaviors.put(new StabilizedKick(
 				KICK_11M.FULL.RIGHT, thoughtModel, params, behaviors, KICK_11M.STABILIZE.RIGHT, KICK_11M.KICK.RIGHT));
-
-		behaviors.put(new Attack(thoughtModel, behaviors, createDefaultAvailableKicks(behaviors)));
 	}
 }

@@ -74,10 +74,9 @@ public class Attack extends RoboCupComplexBehavior
 		}
 
 		// Check kick options
-		List<KickExecutability> preferredKicks = getPreferredKicks();
-		if (!preferredKicks.isEmpty()) {
-			// System.out.println("Kick List: " + preferredKicks);
-			return preferredKicks.stream().map(executability -> executability.kick).collect(Collectors.toList());
+		List<IBehavior> preferredKicks = checkKicks();
+		if (preferredKicks != null) {
+			return preferredKicks;
 		}
 
 		// We neither want to kick nor dribble, so get in some better position to
@@ -87,6 +86,17 @@ public class Attack extends RoboCupComplexBehavior
 		PoseSpeed2D kickPoseSpeed = getFastestKickPosition(ballPos);
 
 		return Collections.singletonList(walkToPosition(kickPoseSpeed));
+	}
+
+	protected List<IBehavior> checkKicks()
+	{
+		List<KickExecutability> preferredKicks = getPreferredKicks();
+		if (!preferredKicks.isEmpty()) {
+			// System.out.println("Kick List: " + preferredKicks);
+			return preferredKicks.stream().map(executability -> executability.kick).collect(Collectors.toList());
+		}
+
+		return null;
 	}
 
 	public List<IBehavior> handleStandardSituation()

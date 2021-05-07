@@ -36,7 +36,7 @@ class RoboCupBodyModel extends BodyModel implements IRoboCupBodyModel
 	/** the next beam position */
 	protected IPose2D beamPose;
 
-	private boolean sendPassCommand;
+	protected boolean sendPassCommand;
 
 	/** indicator if beam action has been performed and should be reset */
 	private transient boolean beamPerformed;
