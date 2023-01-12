@@ -47,18 +47,13 @@ fi
 
 if [ $DECISION_MAKER == "KeepAwayChallenge" ]; then
 	start 8
-	sleep 1
 	start 9
-	sleep 1
 	start 10
 
 elif [ $DECISION_MAKER == "PassingChallenge" ]; then
 	start 7
-	sleep 1
 	start 8
-	sleep 1
 	start 9
-	sleep 1
 	start 10
 	
 elif [ $DECISION_MAKER == "GoalieChallenge" ]; then
