@@ -15,7 +15,8 @@ public class Foul
 		INCAPABLE(4, "incapable"),
 		ILLEGAL_KICK_OFF(5, "illegal kickoff"),
 		CHARGING(6, "charging"),
-		SELF_COLLISION(7, "self collision");
+		SELF_COLLISION(7, "self collision"),
+		BALL_HOLDING(8, "ball holding");
 
 		private int index;
 
