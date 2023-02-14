@@ -34,7 +34,7 @@ public class NaoAgentMetaModel extends RoboCupAgentMetaModel
 	public NaoAgentMetaModel(String modelName, String sceneString)
 	{
 		super(modelName, sceneString, STATIC_PIVOT_POINT, Head, new Pose3D(), -60, Float.NEGATIVE_INFINITY, 0.6531f,
-				300, 0.02f, 0.06f, TORSO_Z_UPRIGHT);
+				300, 0.02f, 0.04f, TORSO_Z_UPRIGHT);
 	}
 
 	@Override
