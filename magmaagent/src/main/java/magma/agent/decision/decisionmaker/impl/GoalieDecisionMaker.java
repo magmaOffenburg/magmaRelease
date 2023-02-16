@@ -11,6 +11,7 @@ import magma.agent.decision.behavior.IBehaviorConstants;
 import magma.agent.decision.behavior.IKeepBehavior;
 import magma.agent.decision.behavior.base.KeepEstimator;
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
+import magma.agent.model.worldmodel.IRoboCupWorldModel;
 
 public class GoalieDecisionMaker extends SoccerDecisionMaker
 {
@@ -48,5 +49,11 @@ public class GoalieDecisionMaker extends SoccerDecisionMaker
 		}
 
 		return IBehaviorConstants.GOALIE_POSITIONING;
+	}
+
+	@Override
+	protected boolean isMyTurnInPenalties()
+	{
+		return getWorldModel().getPenaltyState() == IRoboCupWorldModel.PenaltyState.HOLD;
 	}
 }

@@ -7,6 +7,7 @@ package magma.agent.model.thoughtmodel.strategy.impl.strategies;
 
 import magma.agent.model.thoughtmodel.IRoboCupThoughtModel;
 import magma.agent.model.thoughtmodel.strategy.impl.formations.PenaltyKickerFormation;
+import magma.agent.model.thoughtmodel.strategy.impl.roles.DummyRole;
 
 public class PenaltyKickerStrategy extends BaseStrategy
 {
@@ -19,5 +20,7 @@ public class PenaltyKickerStrategy extends BaseStrategy
 		ownKickOffFormation = new PenaltyKickerFormation();
 		// probably not needed, just to be safe
 		opponentKickOffFormation = new PenaltyKickerFormation();
+
+		availableRoles.add(DummyRole.INSTANCE);
 	}
 }

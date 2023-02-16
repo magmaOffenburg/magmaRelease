@@ -142,6 +142,10 @@ public class RoboCupWorldModel extends WorldModel implements IRoboCupWorldModel
 	 */
 	protected String otherTeamName;
 
+	protected boolean penalty = false;
+
+	private PenaltyState penaltyState = PenaltyState.NONE;
+
 	/**
 	 * Constructor
 	 *
@@ -291,6 +295,15 @@ public class RoboCupWorldModel extends WorldModel implements IRoboCupWorldModel
 
 		// update scored goals
 		updateGoalsScored();
+
+		if (isPenalty()) {
+			// Update penalty state
+			if (gameState == GameState.OWN_KICK_OFF) {
+				penaltyState = PenaltyState.KICK;
+			} else if (gameState == GameState.OPPONENT_KICK_OFF) {
+				penaltyState = PenaltyState.HOLD;
+			}
+		}
 	}
 
 	/**
@@ -1052,5 +1065,22 @@ public class RoboCupWorldModel extends WorldModel implements IRoboCupWorldModel
 	public float getLeftPassModeTime()
 	{
 		return leftPassModeTime;
+	}
+
+	public void setPenalty(boolean penalty)
+	{
+		this.penalty = penalty;
+	}
+
+	@Override
+	public boolean isPenalty()
+	{
+		return penalty;
+	}
+
+	@Override
+	public PenaltyState getPenaltyState()
+	{
+		return penaltyState;
 	}
 }

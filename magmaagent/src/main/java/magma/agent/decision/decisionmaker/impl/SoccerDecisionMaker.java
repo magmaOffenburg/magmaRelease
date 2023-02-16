@@ -187,7 +187,8 @@ public class SoccerDecisionMaker extends RoboCupDecisionMakerBase
 	 */
 	protected String waitForGameStart()
 	{
-		if (!getWorldModel().getGameState().isGameRunning()) {
+		if (!getWorldModel().getGameState().isGameRunning() ||
+				(getWorldModel().isPenalty() && !isMyTurnInPenalties())) {
 			return IBehaviorConstants.GET_READY;
 		}
 		return null;
@@ -287,5 +288,9 @@ public class SoccerDecisionMaker extends RoboCupDecisionMakerBase
 		}
 
 		return IBehaviorConstants.PASSIVE_POSITIONING;
+	}
+	protected boolean isMyTurnInPenalties()
+	{
+		return getWorldModel().getPenaltyState() == IRoboCupWorldModel.PenaltyState.KICK;
 	}
 }

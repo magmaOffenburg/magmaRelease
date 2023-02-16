@@ -12,6 +12,6 @@ public class PenaltyKickerFormation extends Formation
 	public PenaltyKickerFormation()
 	{
 		poses.put(1, new Pose2D(-14.5, 0));
-		poses.put(8, new Pose2D(-0.23f, 0.03f));
+		poses.put(8, new Pose2D(4.5f, 0.03f));
 	}
 }

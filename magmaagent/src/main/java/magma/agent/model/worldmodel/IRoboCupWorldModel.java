@@ -29,6 +29,16 @@ public interface IRoboCupWorldModel extends IWorldModel {
 	}
 
 	/**
+	 * Represents the current task to be executed by our team in a penalty shootout
+	 */
+	enum PenaltyState
+	{
+		NONE,
+		KICK,
+		HOLD,
+	}
+
+	/**
 	 * Get the reference to the soccer field map.
 	 *
 	 * @return The soccer field map
@@ -169,4 +179,8 @@ public interface IRoboCupWorldModel extends IWorldModel {
 
 	/** @see IRCSoccerField#getOtherGoalPosition() */
 	Vector3D getOtherGoalPosition();
+
+	boolean isPenalty();
+
+	PenaltyState getPenaltyState();
 }

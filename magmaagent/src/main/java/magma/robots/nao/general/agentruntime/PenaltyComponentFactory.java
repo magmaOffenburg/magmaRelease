@@ -49,14 +49,17 @@ public class PenaltyComponentFactory extends NaoComponentFactory
 	public IRoboCupWorldModel createWorldModel(
 			IRoboCupAgentModel agentModel, IRoboCupWorldMetaModel worldMetaModel, String teamName, int playerNumber)
 	{
-		return new RoboCupWorldModel(agentModel, createLocalizer(agentModel), worldMetaModel, teamName, playerNumber) {
-			@Override
-			public boolean isInCriticalArea(Vector3D position)
-			{
-				return position.getX() < -fieldHalfLength() + penaltyWidth() - 0.3 &&
-						Math.abs(position.getY()) < penaltyHalfLength() + goalHalfWidth() - 0.3;
-			}
-		};
+		RoboCupWorldModel worldModel =
+				new RoboCupWorldModel(agentModel, createLocalizer(agentModel), worldMetaModel, teamName, playerNumber) {
+					@Override
+					public boolean isInCriticalArea(Vector3D position)
+					{
+						return position.getX() < -fieldHalfLength() + penaltyWidth() - 0.3 &&
+								Math.abs(position.getY()) < penaltyHalfLength() + goalHalfWidth() - 0.3;
+					}
+				};
+		worldModel.setPenalty(true);
+		return worldModel;
 	}
 
 	@Override

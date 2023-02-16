@@ -25,13 +25,8 @@ public class PenaltyKickPositionProfiler extends KickPositionProfilerBase
 	protected SortedSet<KickPositionEstimation> evaluatePositions()
 	{
 		SortedSet<KickPositionEstimation> evaluatedPositions = new TreeSet<>();
-		Vector3D otherGoalPosition = worldModel.getOtherGoalPosition();
-		if (worldModel.getBall().getDistanceToXY(otherGoalPosition) > 10) {
-			evaluatedPositions.add(new KickPositionEstimation(new Vector3D(11, 0, 0), 1));
-		} else {
-			Vector3D target = getWiderSector();
-			evaluatedPositions.add(new KickPositionEstimation(target, 1));
-		}
+		Vector3D target = getWiderSector();
+		evaluatedPositions.add(new KickPositionEstimation(target, 1));
 
 		return evaluatedPositions;
 	}
